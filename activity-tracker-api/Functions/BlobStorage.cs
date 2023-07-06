@@ -12,7 +12,7 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace ActivityTracker.Api.Functions
+namespace Todo.Api.Functions
 {
     public class BlobStorage
     {
