@@ -74,7 +74,7 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function App() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
