@@ -6,7 +6,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 
-namespace Todo.Api.Functions
+namespace ActivityTracker.Api.Functions
 {
     public class GetUserClaims
     {
