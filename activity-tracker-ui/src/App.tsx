@@ -1,8 +1,5 @@
-import Dashboard from "./Components/Dashboard";
-
+import Dashboard from "./Dashboard";
 
 export default function App() {
-  return (
-    <Dashboard/>
-  );
+  return <Dashboard />;
 }
