@@ -1,22 +1,23 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import App from "./App";
+import ResponsiveDrawer from "./ResponsiveDrawer";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home/Home";
-import HelloWorld from "./pages/HelloWorld/HelloWorld";
-
+import AuthenticationTest from "./pages/AuthenticationTest/AthenticationTest";
+import Activities from "./pages/Activities/Activities";
 
 const defaultTheme = createTheme();
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <ResponsiveDrawer />,
     children: [
       { path: "/", element: <Home /> },
       { path: "/home", element: <Home /> },
-      { path: "/helloworld", element: <HelloWorld /> },
+      { path: "/activities", element: <Activities /> },
+      { path: "/authenticationtest", element: <AuthenticationTest /> },
     ],
   },
 ]);
