@@ -14,7 +14,7 @@ namespace ActivityTracker.Api.Functions
 
         public GetUserClaims(ILogger<GetUserClaims> log)
         {
-            _logger = log;
+            _logger = log;  
         }
 
         [FunctionName("GetUserClaims")]

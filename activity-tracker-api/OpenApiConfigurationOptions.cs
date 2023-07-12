@@ -10,9 +10,7 @@ public class MyOpenApiConfigurationOptions : IOpenApiConfigurationOptions
     public OpenApiInfo Info { get; set; } = new OpenApiInfo()
     {
         Version = "1.0.0",
-        Title = "OpenAPI Document on Azure Functions",
-        Description = "HTTP APIs that run on Azure Functions using OpenAPI specification.",
-
+        Title = "Activity tracker API",
     };
 
     public List<OpenApiServer> Servers { get; set; } = new List<OpenApiServer>();
