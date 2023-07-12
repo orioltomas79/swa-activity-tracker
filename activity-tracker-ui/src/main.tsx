@@ -4,8 +4,8 @@ import ResponsiveDrawer from "./ResponsiveDrawer";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home/Home";
-import AuthenticationTest from "./pages/AuthenticationTest/AthenticationTest";
 import Activities from "./pages/Activities/Activities";
+import AuthenticationTest from "./pages/AuthenticationTest/AthenticationTest";
 
 const defaultTheme = createTheme();
 

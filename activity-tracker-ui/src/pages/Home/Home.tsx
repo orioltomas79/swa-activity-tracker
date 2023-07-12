@@ -1,7 +1,7 @@
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import Deposits from "../../Components/Deposits";
-import Orders from "../../Components/Orders";
+import Deposits from "../../components/Deposits";
+import Orders from "../../components/Orders";
 
 const Home = () => {
   return (

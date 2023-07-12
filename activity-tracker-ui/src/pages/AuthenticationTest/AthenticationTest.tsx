@@ -6,7 +6,7 @@ import { useState, useCallback } from "react";
 import apiClient from "../../api/apiClient";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import Title from "../../Components/Title";
+import Title from "../../components/Title";
 import Link from "@mui/material/Link";
 
 const AuthenticationTest = () => {

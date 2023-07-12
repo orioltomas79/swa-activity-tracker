@@ -1,6 +1,6 @@
-import { Grid, Paper } from "@mui/material";
-import ActivitiesTable from "../../Components/ActivitiesTable";
-import ActivitiesAdd from "../../Components/ActivitiesAdd";
+import { Grid } from "@mui/material";
+import ActivitiesTable from "../../components/ActivitiesTable";
+import ActivitiesAdd from "../../components/ActivitiesAdd";
 
 const Activities = () => {
   return (
