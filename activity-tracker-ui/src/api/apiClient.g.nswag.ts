@@ -32,17 +32,20 @@ export class Client {
   }
 
   /**
-   * @return The OK response
+   * Gets all activity types
+   * @return Returns all activity types
    */
-  createFile(cancelToken?: CancelToken | undefined): Promise<string> {
-    let url_ = this.baseUrl + "/CreateFile";
+  activityTypesGet(
+    cancelToken?: CancelToken | undefined
+  ): Promise<ActivityType[]> {
+    let url_ = this.baseUrl + "/ActivityTypes";
     url_ = url_.replace(/[?&]$/, "");
 
     let options_: AxiosRequestConfig = {
       method: "GET",
       url: url_,
       headers: {
-        Accept: "text/plain",
+        Accept: "application/json",
       },
       cancelToken,
     };
@@ -57,11 +60,13 @@ export class Client {
         }
       })
       .then((_response: AxiosResponse) => {
-        return this.processCreateFile(_response);
+        return this.processActivityTypesGet(_response);
       });
   }
 
-  protected processCreateFile(response: AxiosResponse): Promise<string> {
+  protected processActivityTypesGet(
+    response: AxiosResponse
+  ): Promise<ActivityType[]> {
     const status = response.status;
     let _headers: any = {};
     if (response.headers && typeof response.headers === "object") {
@@ -75,8 +80,157 @@ export class Client {
       const _responseText = response.data;
       let result200: any = null;
       let resultData200 = _responseText;
-      result200 = resultData200;
-      return Promise.resolve<string>(result200);
+      result200 = JSON.parse(resultData200);
+      return Promise.resolve<ActivityType[]>(result200);
+    } else if (status !== 200 && status !== 204) {
+      const _responseText = response.data;
+      return throwException(
+        "An unexpected server error occurred.",
+        status,
+        _responseText,
+        _headers
+      );
+    }
+    return Promise.resolve<ActivityType[]>(null as any);
+  }
+
+  /**
+   * Adds a new activity type
+   * @param body (optional) The activity type
+   * @return Returns the activity type that has been created
+   */
+  activityTypesPost(
+    body: ActivityType | undefined,
+    cancelToken?: CancelToken | undefined
+  ): Promise<ActivityType> {
+    let url_ = this.baseUrl + "/ActivityTypes";
+    url_ = url_.replace(/[?&]$/, "");
+
+    const content_ = JSON.stringify(body);
+
+    let options_: AxiosRequestConfig = {
+      data: content_,
+      method: "POST",
+      url: url_,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      cancelToken,
+    };
+
+    return this.instance
+      .request(options_)
+      .catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+          return _error.response;
+        } else {
+          throw _error;
+        }
+      })
+      .then((_response: AxiosResponse) => {
+        return this.processActivityTypesPost(_response);
+      });
+  }
+
+  protected processActivityTypesPost(
+    response: AxiosResponse
+  ): Promise<ActivityType> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && typeof response.headers === "object") {
+      for (let k in response.headers) {
+        if (response.headers.hasOwnProperty(k)) {
+          _headers[k] = response.headers[k];
+        }
+      }
+    }
+    if (status === 201) {
+      const _responseText = response.data;
+      let result201: any = null;
+      let resultData201 = _responseText;
+      result201 = JSON.parse(resultData201);
+      return Promise.resolve<ActivityType>(result201);
+    } else if (status !== 200 && status !== 204) {
+      const _responseText = response.data;
+      return throwException(
+        "An unexpected server error occurred.",
+        status,
+        _responseText,
+        _headers
+      );
+    }
+    return Promise.resolve<ActivityType>(null as any);
+  }
+
+  /**
+   * Deletes an activity type
+   * @param id (optional) Activity Type id
+   * @return When the activity type has been deleted
+   */
+  activityTypesDelete(
+    id: string | undefined,
+    cancelToken?: CancelToken | undefined
+  ): Promise<string> {
+    let url_ = this.baseUrl + "/ActivityTypes/{id}";
+    if (id !== null && id !== undefined)
+      url_ = url_.replace("{id}", encodeURIComponent("" + id));
+    else url_ = url_.replace("/{id}", "");
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_: AxiosRequestConfig = {
+      method: "DELETE",
+      url: url_,
+      headers: {
+        Accept: "application/json",
+      },
+      cancelToken,
+    };
+
+    return this.instance
+      .request(options_)
+      .catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+          return _error.response;
+        } else {
+          throw _error;
+        }
+      })
+      .then((_response: AxiosResponse) => {
+        return this.processActivityTypesDelete(_response);
+      });
+  }
+
+  protected processActivityTypesDelete(
+    response: AxiosResponse
+  ): Promise<string> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && typeof response.headers === "object") {
+      for (let k in response.headers) {
+        if (response.headers.hasOwnProperty(k)) {
+          _headers[k] = response.headers[k];
+        }
+      }
+    }
+    if (status === 204) {
+      const _responseText = response.data;
+      let result204: any = null;
+      let resultData204 = _responseText;
+      result204 = JSON.parse(resultData204);
+      return Promise.resolve<string>(result204);
+    } else if (status === 404) {
+      const _responseText = response.data;
+      let result404: any = null;
+      let resultData404 = _responseText;
+      result404 = JSON.parse(resultData404);
+      return throwException(
+        "When the activity type is not found",
+        status,
+        _responseText,
+        _headers,
+        result404
+      );
     } else if (status !== 200 && status !== 204) {
       const _responseText = response.data;
       return throwException(
@@ -146,6 +300,13 @@ export class Client {
     }
     return Promise.resolve<UserClaims>(null as any);
   }
+}
+
+export interface ActivityType {
+  id?: string;
+  name?: string;
+
+  [key: string]: any;
 }
 
 export interface UserClaims {
