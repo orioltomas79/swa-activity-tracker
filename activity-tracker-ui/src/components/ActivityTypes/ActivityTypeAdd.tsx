@@ -21,7 +21,7 @@ export default function ActivityTypeAdd() {
             size="small"
           />
           <Box marginLeft={1}>
-            <Button variant="outlined">Add</Button>
+            <Button variant="contained">Add</Button>
           </Box>
         </Box>
       </Grid>
