@@ -1,5 +1,4 @@
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
+import { Grid, Paper } from "@mui/material";
 import Deposits from "../../components/Deposits";
 import Orders from "../../components/Orders";
 

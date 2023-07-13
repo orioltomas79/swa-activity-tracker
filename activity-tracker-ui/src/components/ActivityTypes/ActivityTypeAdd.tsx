@@ -1,7 +1,7 @@
-import Title from "./Title";
+import Title from "../Title";
 import { Box, Button, Grid, TextField } from "@mui/material";
 
-export default function ActivitiesAdd() {
+export default function ActivityTypeAdd() {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>

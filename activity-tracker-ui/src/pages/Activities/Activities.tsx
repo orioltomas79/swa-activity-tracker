@@ -1,15 +1,15 @@
 import { Grid } from "@mui/material";
-import ActivitiesTable from "../../components/ActivitiesTable";
-import ActivitiesAdd from "../../components/ActivitiesAdd";
+import ActivityTypeTable from "../../components/ActivityTypes/ActivityTypeTable";
+import ActivityTypeAdd from "../../components/ActivityTypes/ActivityTypeAdd";
 
 const Activities = () => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <ActivitiesAdd />
+        <ActivityTypeAdd />
       </Grid>
       <Grid item xs={12}>
-        <ActivitiesTable />
+        <ActivityTypeTable />
       </Grid>
     </Grid>
   );

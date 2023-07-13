@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import Button from "@mui/material/Button";
+
 import { useState, useCallback } from "react";
+import { Button, Grid, Link, Paper } from "@mui/material";
 import apiClient from "../../api/apiClient";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
 import Title from "../../components/Title";
-import Link from "@mui/material/Link";
 
 const AuthenticationTest = () => {
   const [dataAxios, setDataAxios] = useState("");

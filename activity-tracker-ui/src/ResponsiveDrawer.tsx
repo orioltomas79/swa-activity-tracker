@@ -1,19 +1,22 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
+import React from "react";
+import {
+  AppBar,
+  Box,
+  CssBaseline,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
+import MenuIcon from "@mui/icons-material/Menu";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -40,9 +43,9 @@ export default function ResponsiveDrawer() {
         </ListItemButton>
         <ListItemButton onClick={() => navigate("activities")}>
           <ListItemIcon>
-            <ShoppingCartIcon />
+            <ListOutlinedIcon />
           </ListItemIcon>
-          <ListItemText primary="Activities" />
+          <ListItemText primary="Activity Types" />
         </ListItemButton>
       </List>
       <Divider />

@@ -1,11 +1,12 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom/client";
+
 import ResponsiveDrawer from "./ResponsiveDrawer";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Activities from "./pages/Activities/Activities";
 import AuthenticationTest from "./pages/AuthenticationTest/AthenticationTest";
+import ReactDOM from "react-dom/client";
+import React from "react";
 
 const defaultTheme = createTheme();
 
