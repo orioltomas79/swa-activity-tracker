@@ -33,7 +33,7 @@ export default function ActivityTypeTable() {
           {rows.map((row) => (
             <TableRow key={row.id}>
               <TableCell>{row.name}</TableCell>
-              <TableCell align="right">Delete</TableCell>
+              <TableCell align="right">Remove</TableCell>
             </TableRow>
           ))}
         </TableBody>

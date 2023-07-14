@@ -1,27 +1,27 @@
 import { Grid, Paper } from "@mui/material";
-import Deposits from "../../components/Deposits";
-import Orders from "../../components/Orders";
+import ActivityAdd from "../../components/Activity/ActivityAdd";
+import ActivityTable from "../../components/Activity/ActivityTable";
 
 const Home = () => {
   return (
     <Grid container spacing={3}>
-      {/* Recent Deposits */}
+      {/* Add activity */}
       <Grid item xs={12} md={4} lg={3}>
         <Paper
           sx={{
             p: 2,
             display: "flex",
             flexDirection: "column",
-            height: 240,
+            height: 285,
           }}
         >
-          <Deposits />
+          <ActivityAdd />
         </Paper>
       </Grid>
-      {/* Recent Orders */}
+      {/* Recent Activities */}
       <Grid item xs={12}>
         <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-          <Orders />
+          <ActivityTable />
         </Paper>
       </Grid>
     </Grid>
