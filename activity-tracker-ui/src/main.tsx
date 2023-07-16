@@ -3,11 +3,11 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Activities from "./pages/ActivityTypes/ActivityTypes";
-import AuthenticationTest from "./pages/AuthenticationTest/AthenticationTest";
 import ReactDOM from "react-dom/client";
 import React from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import TestFormik from "./components/TestFormik";
 
 const defaultTheme = createTheme();
 
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/home", element: <Home /> },
       { path: "/activities", element: <Activities /> },
-      { path: "/authenticationtest", element: <AuthenticationTest /> },
+      { path: "/authenticationtest", element: <TestFormik /> },
     ],
   },
 ]);
