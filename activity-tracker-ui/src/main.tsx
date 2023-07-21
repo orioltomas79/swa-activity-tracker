@@ -7,7 +7,7 @@ import ReactDOM from "react-dom/client";
 import React from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import TestFormik from "./components/TestFormik";
+import AuthenticationTest from "./pages/AuthenticationTest/AthenticationTest";
 
 const defaultTheme = createTheme();
 
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/home", element: <Home /> },
       { path: "/activities", element: <Activities /> },
-      { path: "/authenticationtest", element: <TestFormik /> },
+      { path: "/authenticationtest", element: <AuthenticationTest /> },
     ],
   },
 ]);
