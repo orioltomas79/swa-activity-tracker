@@ -23,7 +23,7 @@ const AuthenticationTest = () => {
 
   const callAxiosHandler = useCallback(async () => {
     try {
-      const text = await apiClient.client.getUserClaims();
+      const text = await apiClient.users.getUserClaims();
       setDataAxios(text.name! + " - " + text.authType!);
     } catch (error: any) {
       setError(error.message);

@@ -2,6 +2,8 @@ import { Field, FieldProps, Form, Formik } from "formik";
 import Title from "../Title";
 import { Box, Button, Grid, TextField } from "@mui/material";
 import * as Yup from "yup";
+import { useAppDispatch } from "../../app/hooks";
+import { saveActivityType } from "../../features/activityTypes/activityTypesSlice";
 
 interface FormValues {
   activityTypeName: string;
@@ -16,8 +18,16 @@ const validationSchema = Yup.object({
 });
 
 const ActivityTypeAdd = () => {
-  const handleSubmit = (values: FormValues) => {
+  const dispatch = useAppDispatch();
+
+  const handleSubmit = async (values: FormValues) => {
     console.log(values);
+
+    await dispatch(
+      saveActivityType({
+        name: values.activityTypeName,
+      })
+    ).unwrap();
   };
 
   return (

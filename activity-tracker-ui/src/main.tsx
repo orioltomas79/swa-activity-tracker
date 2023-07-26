@@ -8,6 +8,8 @@ import React from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import AuthenticationTest from "./pages/AuthenticationTest/AthenticationTest";
+import { Provider } from "react-redux";
+import { store } from "./app/store";
 
 const defaultTheme = createTheme();
 
@@ -26,10 +28,12 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <ThemeProvider theme={defaultTheme}>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <RouterProvider router={router} />
-      </LocalizationProvider>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={defaultTheme}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <RouterProvider router={router} />
+        </LocalizationProvider>
+      </ThemeProvider>
+    </Provider>
   </React.StrictMode>
 );

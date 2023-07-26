@@ -11,7 +11,7 @@
     "func:start": "func host start --script-root ../activity-tracker-api",
     "swa:start": "swa start http://localhost:3000",
     "api:generate": "npm run api:generate:nswag && npm run api:postgenerate",
-    "api:generate:nswag": "nswag openapi2tsclient /runtime:Net60 /typeScriptVersion:4.9 /input:http://localhost:7071/api/swagger.json /output:src/api/apiClient.g.nswag.ts /template:axios /operationGenerationMode:MultipleClientsFromPathSegments /typeStyle:Interface /nullValue:null /dateTimeType:string",
+    "api:generate:nswag": "nswag openapi2tsclient /runtime:Net60 /typeScriptVersion:4.9 /input:http://localhost:7071/api/swagger.json /output:src/api/apiClient.g.nswag.ts /template:axios /operationGenerationMode:MultipleClientsFromFirstTagAndOperationName /typeStyle:Interface /nullValue:null /dateTimeType:string",
     "api:postgenerate": "prettier --write src/api/apiClient.g.nswag.ts"
   },
   "dependencies": {
@@ -20,11 +20,13 @@
     "@mui/icons-material": "^5.13.7",
     "@mui/material": "^5.13.7",
     "@mui/x-date-pickers": "^6.10.0",
+    "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.3.4",
     "dayjs": "^1.11.9",
     "formik": "^2.4.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.1.1",
     "react-router-dom": "^6.14.1",
     "yup": "^1.2.0"
   },

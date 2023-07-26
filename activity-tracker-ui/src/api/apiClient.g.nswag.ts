@@ -16,7 +16,82 @@ import type {
   CancelToken,
 } from "axios";
 
-export class Client {
+export class ActivitiesClient {
+  private instance: AxiosInstance;
+  private baseUrl: string;
+  protected jsonParseReviver: ((key: string, value: any) => any) | undefined =
+    undefined;
+
+  constructor(baseUrl?: string, instance?: AxiosInstance) {
+    this.instance = instance ? instance : axios.create();
+
+    this.baseUrl =
+      baseUrl !== undefined && baseUrl !== null
+        ? baseUrl
+        : "http://localhost:7071/api";
+  }
+
+  /**
+   * Gets all activities
+   * @return Returns all activities
+   */
+  get(cancelToken?: CancelToken | undefined): Promise<Activities[]> {
+    let url_ = this.baseUrl + "/Activities";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_: AxiosRequestConfig = {
+      method: "GET",
+      url: url_,
+      headers: {
+        Accept: "application/json",
+      },
+      cancelToken,
+    };
+
+    return this.instance
+      .request(options_)
+      .catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+          return _error.response;
+        } else {
+          throw _error;
+        }
+      })
+      .then((_response: AxiosResponse) => {
+        return this.processGet(_response);
+      });
+  }
+
+  protected processGet(response: AxiosResponse): Promise<Activities[]> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && typeof response.headers === "object") {
+      for (let k in response.headers) {
+        if (response.headers.hasOwnProperty(k)) {
+          _headers[k] = response.headers[k];
+        }
+      }
+    }
+    if (status === 200) {
+      const _responseText = response.data;
+      let result200: any = null;
+      let resultData200 = _responseText;
+      result200 = JSON.parse(resultData200);
+      return Promise.resolve<Activities[]>(result200);
+    } else if (status !== 200 && status !== 204) {
+      const _responseText = response.data;
+      return throwException(
+        "An unexpected server error occurred.",
+        status,
+        _responseText,
+        _headers
+      );
+    }
+    return Promise.resolve<Activities[]>(null as any);
+  }
+}
+
+export class ActivityTypesClient {
   private instance: AxiosInstance;
   private baseUrl: string;
   protected jsonParseReviver: ((key: string, value: any) => any) | undefined =
@@ -35,7 +110,7 @@ export class Client {
    * Gets all activity types
    * @return Returns all activity types
    */
-  activityTypesGet(
+  getActivityTypes(
     cancelToken?: CancelToken | undefined
   ): Promise<ActivityType[]> {
     let url_ = this.baseUrl + "/ActivityTypes";
@@ -60,11 +135,11 @@ export class Client {
         }
       })
       .then((_response: AxiosResponse) => {
-        return this.processActivityTypesGet(_response);
+        return this.processGetActivityTypes(_response);
       });
   }
 
-  protected processActivityTypesGet(
+  protected processGetActivityTypes(
     response: AxiosResponse
   ): Promise<ActivityType[]> {
     const status = response.status;
@@ -99,8 +174,8 @@ export class Client {
    * @param body (optional) The activity type
    * @return Returns the activity type that has been created
    */
-  activityTypesPost(
-    body: ActivityType | undefined,
+  addActivityType(
+    body: CreateNewActivityTypeRequest | undefined,
     cancelToken?: CancelToken | undefined
   ): Promise<ActivityType> {
     let url_ = this.baseUrl + "/ActivityTypes";
@@ -129,11 +204,11 @@ export class Client {
         }
       })
       .then((_response: AxiosResponse) => {
-        return this.processActivityTypesPost(_response);
+        return this.processAddActivityType(_response);
       });
   }
 
-  protected processActivityTypesPost(
+  protected processAddActivityType(
     response: AxiosResponse
   ): Promise<ActivityType> {
     const status = response.status;
@@ -168,7 +243,7 @@ export class Client {
    * @param id (optional) Activity Type id
    * @return When the activity type has been deleted
    */
-  activityTypesDelete(
+  deleteActivityType(
     id: string | undefined,
     cancelToken?: CancelToken | undefined
   ): Promise<string> {
@@ -197,11 +272,11 @@ export class Client {
         }
       })
       .then((_response: AxiosResponse) => {
-        return this.processActivityTypesDelete(_response);
+        return this.processDeleteActivityType(_response);
       });
   }
 
-  protected processActivityTypesDelete(
+  protected processDeleteActivityType(
     response: AxiosResponse
   ): Promise<string> {
     const status = response.status;
@@ -242,8 +317,25 @@ export class Client {
     }
     return Promise.resolve<string>(null as any);
   }
+}
+
+export class UsersClient {
+  private instance: AxiosInstance;
+  private baseUrl: string;
+  protected jsonParseReviver: ((key: string, value: any) => any) | undefined =
+    undefined;
+
+  constructor(baseUrl?: string, instance?: AxiosInstance) {
+    this.instance = instance ? instance : axios.create();
+
+    this.baseUrl =
+      baseUrl !== undefined && baseUrl !== null
+        ? baseUrl
+        : "http://localhost:7071/api";
+  }
 
   /**
+   * Gets current user claims
    * @return The OK response
    */
   getUserClaims(cancelToken?: CancelToken | undefined): Promise<UserClaims> {
@@ -302,8 +394,18 @@ export class Client {
   }
 }
 
+export interface Activities {
+  [key: string]: any;
+}
+
 export interface ActivityType {
   id?: string;
+  name?: string;
+
+  [key: string]: any;
+}
+
+export interface CreateNewActivityTypeRequest {
   name?: string;
 
   [key: string]: any;

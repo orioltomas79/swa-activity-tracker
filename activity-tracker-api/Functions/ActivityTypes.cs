@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using ActivityTracker.Api.Models;
+using ActivityTracker.Api.Requests;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,7 @@ namespace ActivityTracker.Api.Functions
 {
     public class ActivityTypes
     {
+        private const string ActivityTypesTag = "ActivityTypes";
         private readonly ILogger<ActivityTypes> _logger;
 
         public ActivityTypes(ILogger<ActivityTypes> log)
@@ -28,7 +30,7 @@ namespace ActivityTracker.Api.Functions
         }
 
         [FunctionName(nameof(GetActivityTypes))]
-        [OpenApiOperation(tags: new[] { "Activity types" }, Summary = "Gets all activity types")]
+        [OpenApiOperation(tags: new[] { ActivityTypesTag }, operationId: nameof(GetActivityTypes), Summary = "Gets all activity types")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<ActivityType>), Description = "Returns all activity types")]
         public async Task<ActionResult<List<ActivityType>>> GetActivityTypes(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "ActivityTypes")] HttpRequest req)
@@ -44,8 +46,8 @@ namespace ActivityTracker.Api.Functions
 
 
         [FunctionName(nameof(AddActivityType))]
-        [OpenApiOperation(tags: new[] { "Activity types" }, Summary = "Adds a new activity type")]
-        [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(ActivityType), Description = "The activity type")]
+        [OpenApiOperation(tags: new[] { ActivityTypesTag }, operationId: nameof(AddActivityType), Summary = "Adds a new activity type")]
+        [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(CreateNewActivityTypeRequest), Description = "The activity type")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(ActivityType), Description = "Returns the activity type that has been created")]
         public async Task<ActionResult<ActivityType>> AddActivityType(
           [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "ActivityTypes")] HttpRequest req)
@@ -55,7 +57,13 @@ namespace ActivityTracker.Api.Functions
             {
                 requestBody = await streamReader.ReadToEndAsync();
             }
-            var activityType = JsonConvert.DeserializeObject<ActivityType>(requestBody);
+            var createNewActivityTypeRequest = JsonConvert.DeserializeObject<CreateNewActivityTypeRequest>(requestBody);
+
+            var activityType = new ActivityType()
+            {
+                Id = Guid.NewGuid(),
+                Name = createNewActivityTypeRequest!.Name
+            };
 
             var blobClient = await GetBlobClientAsync();
 
@@ -69,7 +77,7 @@ namespace ActivityTracker.Api.Functions
         }
 
         [FunctionName(nameof(DeleteActivityType))]
-        [OpenApiOperation(tags: new[] { "Activity types" }, Summary = "Deletes an activity type")]
+        [OpenApiOperation(tags: new[] { ActivityTypesTag }, operationId: nameof(DeleteActivityType), Summary = "Deletes an activity type")]
         [OpenApiParameter("id", In = ParameterLocation.Path, Type = typeof(Guid), Description = "Activity Type id")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.NoContent, contentType: "application/json", bodyType: typeof(string), Description = "When the activity type has been deleted")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.NotFound, contentType: "application/json", bodyType: typeof(string), Description = "When the activity type is not found")]
