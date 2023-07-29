@@ -292,3 +292,5 @@ __pycache__/
 /__azurite_db_blob_extent__.json
 /__azurite_db_blob__.json
 __blobstorage__/
+activity-tracker-api/__azurite_db_blob__.json
+activity-tracker-api/__azurite_db_blob_extent__.json

@@ -1,25 +1,41 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useEffect, useCallback } from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import Title from "../Title";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { fetchActivityTypes, selectActivityTypes } from "../../features/activityTypes/activityTypesSlice";
+import {
+  fetchActivityTypes,
+  selectActivityTypes,
+  deleteActivityType,
+} from "../../features/activityTypes/activityTypesSlice";
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
 export default function ActivityTypeTable() {
   const dispatch = useAppDispatch();
   const activityTypes = useAppSelector(selectActivityTypes).value;
-  
+
   const initFetch = useCallback(async () => {
     await dispatch(fetchActivityTypes()).unwrap();
   }, [dispatch]);
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     initFetch();
   }, [initFetch]);
+
+  const handleRemove = async (id: string) => {
+    try {
+      await dispatch(deleteActivityType(id)).unwrap();
+    } catch (error) {
+      console.error("Error removing item:", error);
+    }
+  };
 
   return (
     <React.Fragment>
@@ -35,7 +51,10 @@ export default function ActivityTypeTable() {
           {activityTypes.map((row) => (
             <TableRow key={row.id}>
               <TableCell>{row.name}</TableCell>
-              <TableCell align="right">Remove</TableCell>
+
+              <TableCell align="right">
+                <Button onClick={() => handleRemove(row.id!)}>Remove</Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

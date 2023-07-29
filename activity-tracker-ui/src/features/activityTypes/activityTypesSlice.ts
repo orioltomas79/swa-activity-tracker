@@ -18,10 +18,6 @@ const FETCH_ACTIVITY_TYPES = "activitytypes/FETCH_ACTIVITY_TYPES";
 const SAVE_ACTIVITY_TYPES = "activitytypes/SAVE_ACTIVITY_TYPES";
 const DELETE_ACTIVITY_TYPES = "activitytypes/DELETE_ACTIVITY_TYPES";
 
-export interface DeleteActivityTypesParams {
-  activityTypeId: string;
-}
-
 export const fetchActivityTypes = createAsyncThunk(
   FETCH_ACTIVITY_TYPES,
   async () => {
@@ -38,7 +34,7 @@ export const saveActivityType = createAsyncThunk(
 
 export const deleteActivityType = createAsyncThunk(
   DELETE_ACTIVITY_TYPES,
-  async ({ activityTypeId }: DeleteActivityTypesParams) => {
+  async (activityTypeId: string) => {
     return await apiClient.activityTypes.deleteActivityType(activityTypeId);
   }
 );
@@ -78,7 +74,7 @@ export const activityTypesSlice = createSlice({
       .addCase(deleteActivityType.fulfilled, (state, action) => {
         state.status = "idle";
         state.value = state.value.filter(
-          (a) => a.id !== action.meta.arg.activityTypeId
+          (a) => a.id !== action.meta.arg
         );
       })
       .addCase(deleteActivityType.rejected, (state) => {
