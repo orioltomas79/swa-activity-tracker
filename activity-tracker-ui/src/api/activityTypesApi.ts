@@ -12,7 +12,7 @@ const activityTypesApi = {
   createActivityType: (
     payload: CreateActivityTypePayload
   ): Promise<ActivityType> => apiClient.activityTypes.addActivityType(payload),
-  deleteActivityType: (activityTypeGuid: string): Promise<string> =>
+  deleteActivityType: (activityTypeGuid: string): Promise<void> =>
     apiClient.activityTypes.deleteActivityType(activityTypeGuid),
 };
 

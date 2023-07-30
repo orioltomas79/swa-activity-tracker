@@ -285,7 +285,6 @@ export class ActivityTypesClient {
       }
     }
     if (status === 204) {
-      const _responseText = response.data;
       return Promise.resolve<void>(null as any);
     } else if (status === 404) {
       const _responseText = response.data;
