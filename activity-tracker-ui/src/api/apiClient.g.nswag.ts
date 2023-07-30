@@ -240,25 +240,23 @@ export class ActivityTypesClient {
 
   /**
    * Deletes an activity type
-   * @param id (optional) Activity Type id
+   * @param id Activity Type id
    * @return When the activity type has been deleted
    */
   deleteActivityType(
-    id: string | undefined,
+    id: string,
     cancelToken?: CancelToken | undefined
-  ): Promise<string> {
+  ): Promise<void> {
     let url_ = this.baseUrl + "/ActivityTypes/{id}";
-    if (id !== null && id !== undefined)
-      url_ = url_.replace("{id}", encodeURIComponent("" + id));
-    else url_ = url_.replace("/{id}", "");
+    if (id === undefined || id === null)
+      throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace("{id}", encodeURIComponent("" + id));
     url_ = url_.replace(/[?&]$/, "");
 
     let options_: AxiosRequestConfig = {
       method: "DELETE",
       url: url_,
-      headers: {
-        Accept: "application/json",
-      },
+      headers: {},
       cancelToken,
     };
 
@@ -276,9 +274,7 @@ export class ActivityTypesClient {
       });
   }
 
-  protected processDeleteActivityType(
-    response: AxiosResponse
-  ): Promise<string> {
+  protected processDeleteActivityType(response: AxiosResponse): Promise<void> {
     const status = response.status;
     let _headers: any = {};
     if (response.headers && typeof response.headers === "object") {
@@ -290,21 +286,14 @@ export class ActivityTypesClient {
     }
     if (status === 204) {
       const _responseText = response.data;
-      let result204: any = null;
-      let resultData204 = _responseText;
-      result204 = JSON.parse(resultData204);
-      return Promise.resolve<string>(result204);
+      return Promise.resolve<void>(null as any);
     } else if (status === 404) {
       const _responseText = response.data;
-      let result404: any = null;
-      let resultData404 = _responseText;
-      result404 = JSON.parse(resultData404);
       return throwException(
         "When the activity type is not found",
         status,
         _responseText,
-        _headers,
-        result404
+        _headers
       );
     } else if (status !== 200 && status !== 204) {
       const _responseText = response.data;
@@ -315,7 +304,7 @@ export class ActivityTypesClient {
         _headers
       );
     }
-    return Promise.resolve<string>(null as any);
+    return Promise.resolve<void>(null as any);
   }
 }
 

@@ -28,6 +28,13 @@ export default function ResponsiveDrawer() {
     setMobileOpen(!mobileOpen);
   };
 
+  const handleListItemButtonClick = (url: string) => {
+    if (mobileOpen) {
+      setMobileOpen(false);
+    }
+    navigate(url);
+  };
+
   const navigate = useNavigate();
 
   const drawer = (
@@ -35,13 +42,13 @@ export default function ResponsiveDrawer() {
       <Toolbar />
       <Divider />
       <List>
-        <ListItemButton onClick={() => navigate("home")}>
+        <ListItemButton onClick={() => handleListItemButtonClick("home")}>
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
           <ListItemText primary="Home" />
         </ListItemButton>
-        <ListItemButton onClick={() => navigate("activities")}>
+        <ListItemButton onClick={() => handleListItemButtonClick("activities")}>
           <ListItemIcon>
             <ListOutlinedIcon />
           </ListItemIcon>
@@ -50,7 +57,9 @@ export default function ResponsiveDrawer() {
       </List>
       <Divider />
       <List>
-        <ListItemButton onClick={() => navigate("authenticationtest")}>
+        <ListItemButton
+          onClick={() => handleListItemButtonClick("authenticationtest")}
+        >
           <ListItemIcon>
             <ShoppingCartIcon />
           </ListItemIcon>

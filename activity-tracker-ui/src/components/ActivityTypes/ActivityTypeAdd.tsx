@@ -21,8 +21,6 @@ const ActivityTypeAdd = () => {
   const dispatch = useAppDispatch();
 
   const handleSubmit = async (values: FormValues) => {
-    console.log(values);
-
     await dispatch(
       saveActivityType({
         name: values.activityTypeName,

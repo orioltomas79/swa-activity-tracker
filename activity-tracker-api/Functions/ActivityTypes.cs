@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
@@ -78,9 +79,9 @@ namespace ActivityTracker.Api.Functions
 
         [FunctionName(nameof(DeleteActivityType))]
         [OpenApiOperation(tags: new[] { ActivityTypesTag }, operationId: nameof(DeleteActivityType), Summary = "Deletes an activity type")]
-        [OpenApiParameter("id", In = ParameterLocation.Path, Type = typeof(Guid), Description = "Activity Type id")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.NoContent, contentType: "application/json", bodyType: typeof(string), Description = "When the activity type has been deleted")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.NotFound, contentType: "application/json", bodyType: typeof(string), Description = "When the activity type is not found")]
+        [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "Activity Type id")]
+        [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NoContent, Description = "When the activity type has been deleted")]
+        [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NotFound, Description = "When the activity type is not found")]
         public async Task<ActionResult> DeleteActivityType(
             [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "ActivityTypes/{id:Guid}")] HttpRequest req, Guid id)
         {
