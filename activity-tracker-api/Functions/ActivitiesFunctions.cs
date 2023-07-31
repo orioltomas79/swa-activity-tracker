@@ -12,20 +12,20 @@ using Microsoft.Extensions.Logging;
 
 namespace ActivityTracker.Api.Functions
 {
-    public class Activities
+    public class ActivitiesFunctions
     {
         private const string ActivitiesTag = "Activities";
 
-        private readonly ILogger<Activities> _logger;
+        private readonly ILogger<ActivitiesFunctions> _logger;
 
-        public Activities(ILogger<Activities> log)
+        public ActivitiesFunctions(ILogger<ActivitiesFunctions> log)
         {
             _logger = log;
         }
 
         [FunctionName(nameof(GetActivities))]
         [OpenApiOperation(tags: new[] { ActivitiesTag }, Summary = "Gets all activities")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<Activities>), Description = "Returns all activities")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<ActivitiesFunctions>), Description = "Returns all activities")]
         public async Task<ActionResult<List<Activity>>> GetActivities(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "Activities")] HttpRequest req)
         {

@@ -3,31 +3,31 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
+using ActivityTracker.Api.Infrastructure;
 using ActivityTracker.Api.Models;
 using ActivityTracker.Api.Requests;
-using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 
 namespace ActivityTracker.Api.Functions
 {
-    public class ActivityTypes
+    public class ActivityTypesFunctions
     {
         private const string ActivityTypesTag = "ActivityTypes";
-        private readonly ILogger<ActivityTypes> _logger;
+        private readonly ILogger<ActivityTypesFunctions> _logger;
+        private readonly IActivityTypesRepository _activityTypesRepository;
 
-        public ActivityTypes(ILogger<ActivityTypes> log)
+        public ActivityTypesFunctions(ILogger<ActivityTypesFunctions> log, IActivityTypesRepository activityTypesRepository)
         {
             _logger = log;
+            _activityTypesRepository = activityTypesRepository;
         }
 
         [FunctionName(nameof(GetActivityTypes))]
@@ -36,11 +36,9 @@ namespace ActivityTracker.Api.Functions
         public async Task<ActionResult<List<ActivityType>>> GetActivityTypes(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "ActivityTypes")] HttpRequest req)
         {
-            _logger.LogInformation("GetActivityTypes started.");
-
-            var blobClient = await GetBlobClientAsync();
-
-            var list = await ReadListAsync(blobClient);
+            _logger.LogInformation("{GetActivityTypes} started.", nameof(GetActivityTypes));
+            
+            var list = await _activityTypesRepository.GetAllActivityTypes();
 
             return new OkObjectResult(list);
         }
@@ -53,6 +51,8 @@ namespace ActivityTracker.Api.Functions
         public async Task<ActionResult<ActivityType>> AddActivityType(
           [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "ActivityTypes")] HttpRequest req)
         {
+            _logger.LogInformation("{AddActivityType} started.", nameof(AddActivityType));
+
             string requestBody;
             using (var streamReader = new StreamReader(req.Body))
             {
@@ -66,13 +66,10 @@ namespace ActivityTracker.Api.Functions
                 Name = createNewActivityTypeRequest!.Name
             };
 
-            var blobClient = await GetBlobClientAsync();
-
-            var items = await ReadListAsync(blobClient);
-            var list = items.ToList();
+            var list = await _activityTypesRepository.GetAllActivityTypes();
             list.Add(activityType);
 
-            await WriteListAsync(blobClient, list);
+            await _activityTypesRepository.SaveActivityTypes(list);
 
             return new CreatedAtActionResult("actionName", "controllerName", null, activityType);
         }
@@ -85,50 +82,15 @@ namespace ActivityTracker.Api.Functions
         public async Task<ActionResult> DeleteActivityType(
             [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "ActivityTypes/{id:Guid}")] HttpRequest req, Guid id)
         {
-            var blobClient = await GetBlobClientAsync();
+            _logger.LogInformation("{DeleteActivityType} started.", nameof(DeleteActivityType));
 
-            var list = await ReadListAsync(blobClient);
+            var list = await _activityTypesRepository.GetAllActivityTypes();
 
             var item = list.FirstOrDefault(i => i.Id == id);
             list.Remove(item);
-            await WriteListAsync(blobClient, list);
+            await _activityTypesRepository.SaveActivityTypes(list);
 
             return new NoContentResult();
-        }
-
-        private async Task<BlobClient> GetBlobClientAsync()
-        {
-            // Create blob client
-            var connectionStr = Environment.GetEnvironmentVariable("StorageAccountConnectionString");
-            const string containerName = "testcontainer2";
-            var blobContainerClient = new BlobContainerClient(connectionStr, containerName);
-            await blobContainerClient.CreateIfNotExistsAsync();
-
-            // Get a reference to a blob in a container 
-            const string blobName = "activity_types.json";
-            var blobClient = blobContainerClient.GetBlobClient(blobName);
-
-            return blobClient;
-        }
-
-        private async Task<List<ActivityType>> ReadListAsync(BlobClient blobClient)
-        {
-            // Download the content
-            if (!await blobClient.ExistsAsync()) return new List<ActivityType>();
-
-            await using var memoryStream = new MemoryStream();
-            await blobClient.DownloadToAsync(memoryStream).ConfigureAwait(false);
-            var text = Encoding.UTF8.GetString(memoryStream.ToArray());
-
-            return JsonConvert.DeserializeObject<List<ActivityType>>(text);
-        }
-
-        private async Task WriteListAsync(BlobClient blobClient, List<ActivityType> list)
-        {
-            // Upload the content
-            var byteArray = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(list));
-            await using var memoryStream = new MemoryStream(byteArray);
-            await blobClient.UploadAsync(memoryStream, overwrite: true);
         }
     }
 }
