@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useEffect, useCallback } from "react";
-import Title from "../Title";
+import Title from "../../components/Title";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   fetchActivityTypes,
   selectActivityTypes,
   deleteActivityType,
-} from "../../features/activityTypes/activityTypesSlice";
+} from "./activityTypesSlice";
 import {
   Button,
   Table,

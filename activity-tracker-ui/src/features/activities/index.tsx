@@ -1,8 +1,8 @@
 import { Grid, Paper } from "@mui/material";
-import ActivityAdd from "../../components/Activity/ActivityAdd";
-import ActivityTable from "../../components/Activity/ActivityTable";
+import ActivityAdd from "./ActivityAdd";
+import ActivityTable from "./ActivityTable";
 
-const Home = () => {
+const Activities = () => {
   return (
     <Grid container spacing={3}>
       {/* Add activity */}
@@ -28,4 +28,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Activities;

@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import Title from "../Title";
+import Title from "../../components/Title";
 import { DatePicker } from "@mui/x-date-pickers";
 import { Box, Button, InputLabel, MenuItem, Select } from "@mui/material";
 

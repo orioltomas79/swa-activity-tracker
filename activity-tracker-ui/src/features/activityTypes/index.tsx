@@ -1,8 +1,8 @@
 import { Grid } from "@mui/material";
-import ActivityTypeTable from "../../components/ActivityTypes/ActivityTypeTable";
-import ActivityTypeAdd from "../../components/ActivityTypes/ActivityTypeAdd";
+import ActivityTypeTable from "./ActivityTypeTable";
+import ActivityTypeAdd from "./ActivityTypeAdd";
 
-const Activities = () => {
+const ActivityTypes = () => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -14,4 +14,4 @@ const Activities = () => {
     </Grid>
   );
 };
-export default Activities;
+export default ActivityTypes;

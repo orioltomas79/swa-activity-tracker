@@ -1,9 +1,9 @@
 import { Field, FieldProps, Form, Formik } from "formik";
-import Title from "../Title";
+import Title from "../../components/Title";
 import { Box, Button, Grid, TextField } from "@mui/material";
 import * as Yup from "yup";
 import { useAppDispatch } from "../../app/hooks";
-import { saveActivityType } from "../../features/activityTypes/activityTypesSlice";
+import { saveActivityType } from "./activityTypesSlice";
 
 interface FormValues {
   activityTypeName: string;

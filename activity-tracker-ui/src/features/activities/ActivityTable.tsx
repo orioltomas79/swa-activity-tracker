@@ -6,7 +6,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import Title from "../Title";
+import Title from "../../components/Title";
 
 function createData(id: number, date: string, name: string) {
   return { id, date, name };

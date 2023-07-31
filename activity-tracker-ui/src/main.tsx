@@ -1,15 +1,15 @@
 import ResponsiveDrawer from "./ResponsiveDrawer";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./pages/Home/Home";
-import Activities from "./pages/ActivityTypes/ActivityTypes";
 import ReactDOM from "react-dom/client";
 import React from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import AuthenticationTest from "./pages/AuthenticationTest/AthenticationTest";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
+import ActivityTypes from "./features/activityTypes";
+import Activities from "./features/activities";
+import AuthenticationTest from "./features/authenticationTest/AuthenticationTest";
 
 const defaultTheme = createTheme();
 
@@ -18,10 +18,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <ResponsiveDrawer />,
     children: [
-      { path: "/", element: <Home /> },
-      { path: "/home", element: <Home /> },
+      { path: "/", element: <Activities /> },
       { path: "/activities", element: <Activities /> },
-      { path: "/authenticationtest", element: <AuthenticationTest /> },
+      { path: "/activity-types", element: <ActivityTypes /> },
+      { path: "/authentication-test", element: <AuthenticationTest /> },
     ],
   },
 ]);

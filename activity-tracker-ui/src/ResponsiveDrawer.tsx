@@ -42,13 +42,13 @@ export default function ResponsiveDrawer() {
       <Toolbar />
       <Divider />
       <List>
-        <ListItemButton onClick={() => handleListItemButtonClick("home")}>
+        <ListItemButton onClick={() => handleListItemButtonClick("activities")}>
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
           <ListItemText primary="Home" />
         </ListItemButton>
-        <ListItemButton onClick={() => handleListItemButtonClick("activities")}>
+        <ListItemButton onClick={() => handleListItemButtonClick("activity-types")}>
           <ListItemIcon>
             <ListOutlinedIcon />
           </ListItemIcon>
@@ -58,7 +58,7 @@ export default function ResponsiveDrawer() {
       <Divider />
       <List>
         <ListItemButton
-          onClick={() => handleListItemButtonClick("authenticationtest")}
+          onClick={() => handleListItemButtonClick("authentication-test")}
         >
           <ListItemIcon>
             <ShoppingCartIcon />
