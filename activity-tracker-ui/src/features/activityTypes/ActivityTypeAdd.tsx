@@ -3,7 +3,8 @@ import Title from "../../components/Title";
 import { Box, Button, Grid, TextField } from "@mui/material";
 import * as Yup from "yup";
 import { useAppDispatch } from "../../app/hooks";
-import { saveActivityType } from "./activityTypesSlice";
+import { postActivityType } from "./store/actions";
+
 
 interface FormValues {
   activityTypeName: string;
@@ -22,7 +23,7 @@ const ActivityTypeAdd = () => {
 
   const handleSubmit = async (values: FormValues) => {
     await dispatch(
-      saveActivityType({
+      postActivityType({
         name: values.activityTypeName,
       })
     ).unwrap();
@@ -68,7 +69,11 @@ const ActivityTypeAdd = () => {
                   )}
                 </Field>
                 <Box marginLeft={1}>
-                  <Button type="submit" variant="contained" color="primary">
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                  >
                     Add
                   </Button>
                 </Box>

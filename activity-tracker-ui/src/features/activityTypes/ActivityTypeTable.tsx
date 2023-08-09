@@ -3,11 +3,8 @@
 import React, { useEffect } from "react";
 import Title from "../../components/Title";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {
-  fetchActivityTypes,
-  selectActivityTypes,
-  deleteActivityType,
-} from "./activityTypesSlice";
+import { fetchActivityTypes, deleteActivityType } from "./store/actions";
+import { selectActivityTypes } from "./store/selectors";
 import {
   Button,
   Table,
