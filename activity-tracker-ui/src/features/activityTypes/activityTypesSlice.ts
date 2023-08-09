@@ -1,17 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../../app/store";
+import { RootState, ThunkActionStatus } from "../../app/store";
 import { ActivityType } from "../../api/apiClient.g.nswag";
 import apiClient from "../../api/apiClient";
 import { CreateActivityTypePayload } from "../../api/activityTypesApi";
 
 export interface ActivityTypesState {
-  value: ActivityType[];
-  status: "idle" | "loading" | "failed";
+  activityTypes: ActivityType[];
+  status: ThunkActionStatus;
+  error: string | undefined;
 }
 
 const initialState: ActivityTypesState = {
-  value: [],
+  activityTypes: [],
   status: "idle",
+  error: undefined,
 };
 
 const FETCH_ACTIVITY_TYPES = "activitytypes/FETCH_ACTIVITY_TYPES";
@@ -52,18 +54,19 @@ export const activityTypesSlice = createSlice({
         state.status = "loading";
       })
       .addCase(fetchActivityTypes.fulfilled, (state, action) => {
-        state.status = "idle";
-        state.value = action.payload;
+        state.status = "succeeded";
+        state.activityTypes = action.payload;
       })
-      .addCase(fetchActivityTypes.rejected, (state) => {
+      .addCase(fetchActivityTypes.rejected, (state, action) => {
         state.status = "failed";
+        state.error = action.error.message;
       })
       .addCase(saveActivityType.pending, (state) => {
         state.status = "loading";
       })
       .addCase(saveActivityType.fulfilled, (state, action) => {
-        state.status = "idle";
-        state.value.push(action.payload);
+        state.status = "succeeded";
+        state.activityTypes.push(action.payload);
       })
       .addCase(saveActivityType.rejected, (state) => {
         state.status = "failed";
@@ -72,8 +75,8 @@ export const activityTypesSlice = createSlice({
         state.status = "loading";
       })
       .addCase(deleteActivityType.fulfilled, (state, action) => {
-        state.status = "idle";
-        state.value = state.value.filter(
+        state.status = "succeeded";
+        state.activityTypes = state.activityTypes.filter(
           (a) => a.id !== action.meta.arg
         );
       })

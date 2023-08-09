@@ -7,6 +7,7 @@ export const store = configureStore({
   },
 });
 
+export type ThunkActionStatus = "idle" | "loading" | "succeeded" | "failed";
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppThunk<ReturnType = void> = ThunkAction<
