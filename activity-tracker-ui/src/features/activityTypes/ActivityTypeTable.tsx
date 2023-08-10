@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Title from "../../components/Title";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { fetchActivityTypes, deleteActivityType } from "./store/actions";
@@ -65,9 +65,9 @@ export default function ActivityTypeTable() {
   }
 
   return (
-    <React.Fragment>
+    <>
       <Title>Activities</Title>
       {content}
-    </React.Fragment>
+    </>
   );
 }

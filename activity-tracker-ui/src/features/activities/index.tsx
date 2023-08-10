@@ -1,4 +1,4 @@
-import { Grid, Paper } from "@mui/material";
+import { Grid } from "@mui/material";
 import ActivityAdd from "./ActivityAdd";
 import ActivityTable from "./ActivityTable";
 
@@ -7,22 +7,11 @@ const Activities = () => {
     <Grid container spacing={3}>
       {/* Add activity */}
       <Grid item xs={12} md={4} lg={3}>
-        <Paper
-          sx={{
-            p: 2,
-            display: "flex",
-            flexDirection: "column",
-            height: 285,
-          }}
-        >
-          <ActivityAdd />
-        </Paper>
+        <ActivityAdd />
       </Grid>
       {/* Recent Activities */}
       <Grid item xs={12}>
-        <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-          <ActivityTable />
-        </Paper>
+        <ActivityTable />
       </Grid>
     </Grid>
   );

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import apiClient from "../../../api/apiClient";
-import { CreateActivityTypePayload } from "../../../api/activityTypesApi";
+import { CreateNewActivityTypeRequest } from "../../../api/apiClient.g.nswag";
 
 const FETCH_ACTIVITY_TYPES = "activitytypes/FETCH_ACTIVITY_TYPES";
 const SAVE_ACTIVITY_TYPES = "activitytypes/SAVE_ACTIVITY_TYPES";
@@ -15,8 +15,8 @@ export const fetchActivityTypes = createAsyncThunk(
 
 export const postActivityType = createAsyncThunk(
   SAVE_ACTIVITY_TYPES,
-  async ({ name }: CreateActivityTypePayload) => {
-    return await apiClient.activityTypes.addActivityType({ name });
+  async (request: CreateNewActivityTypeRequest) => {
+    return await apiClient.activityTypes.addActivityType(request);
   }
 );
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using ActivityTracker.Api.Infrastructure;
 using ActivityTracker.Api.Models;
 using ActivityTracker.Api.Requests;
 using Microsoft.AspNetCore.Http;
@@ -19,10 +20,12 @@ namespace ActivityTracker.Api.Functions
         private const string ActivitiesTag = "Activities";
 
         private readonly ILogger<ActivitiesFunctions> _logger;
+        private readonly IActivitiesRepository _activitiesRepository;
 
-        public ActivitiesFunctions(ILogger<ActivitiesFunctions> log)
+        public ActivitiesFunctions(ILogger<ActivitiesFunctions> log, IActivitiesRepository activitiesRepository)
         {
             _logger = log;
+            _activitiesRepository = activitiesRepository;
         }
 
         [FunctionName(nameof(GetActivities))]
@@ -38,7 +41,8 @@ namespace ActivityTracker.Api.Functions
                 new ()
                 {
                     Id = Guid.NewGuid(),
-                    Completed = true
+                    ActivityTypeId = Guid.NewGuid(),
+                    Date = DateTime.Now,
                 }
             };
 

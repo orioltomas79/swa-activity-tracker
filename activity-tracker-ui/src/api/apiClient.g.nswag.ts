@@ -35,7 +35,7 @@ export class ActivitiesClient {
    * Gets all activities
    * @return Returns all activities
    */
-  get(cancelToken?: CancelToken | undefined): Promise<Activities[]> {
+  getActivities(cancelToken?: CancelToken | undefined): Promise<Activity[]> {
     let url_ = this.baseUrl + "/Activities";
     url_ = url_.replace(/[?&]$/, "");
 
@@ -58,11 +58,11 @@ export class ActivitiesClient {
         }
       })
       .then((_response: AxiosResponse) => {
-        return this.processGet(_response);
+        return this.processGetActivities(_response);
       });
   }
 
-  protected processGet(response: AxiosResponse): Promise<Activities[]> {
+  protected processGetActivities(response: AxiosResponse): Promise<Activity[]> {
     const status = response.status;
     let _headers: any = {};
     if (response.headers && typeof response.headers === "object") {
@@ -77,7 +77,7 @@ export class ActivitiesClient {
       let result200: any = null;
       let resultData200 = _responseText;
       result200 = JSON.parse(resultData200);
-      return Promise.resolve<Activities[]>(result200);
+      return Promise.resolve<Activity[]>(result200);
     } else if (status !== 200 && status !== 204) {
       const _responseText = response.data;
       return throwException(
@@ -87,7 +87,142 @@ export class ActivitiesClient {
         _headers
       );
     }
-    return Promise.resolve<Activities[]>(null as any);
+    return Promise.resolve<Activity[]>(null as any);
+  }
+
+  /**
+   * Adds a new activity
+   * @param body (optional) The activity
+   * @return Returns the activity that has been created
+   */
+  addActivity(
+    body: CreateNewActivityRequest | undefined,
+    cancelToken?: CancelToken | undefined
+  ): Promise<Activity> {
+    let url_ = this.baseUrl + "/Activities";
+    url_ = url_.replace(/[?&]$/, "");
+
+    const content_ = JSON.stringify(body);
+
+    let options_: AxiosRequestConfig = {
+      data: content_,
+      method: "POST",
+      url: url_,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      cancelToken,
+    };
+
+    return this.instance
+      .request(options_)
+      .catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+          return _error.response;
+        } else {
+          throw _error;
+        }
+      })
+      .then((_response: AxiosResponse) => {
+        return this.processAddActivity(_response);
+      });
+  }
+
+  protected processAddActivity(response: AxiosResponse): Promise<Activity> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && typeof response.headers === "object") {
+      for (let k in response.headers) {
+        if (response.headers.hasOwnProperty(k)) {
+          _headers[k] = response.headers[k];
+        }
+      }
+    }
+    if (status === 201) {
+      const _responseText = response.data;
+      let result201: any = null;
+      let resultData201 = _responseText;
+      result201 = JSON.parse(resultData201);
+      return Promise.resolve<Activity>(result201);
+    } else if (status !== 200 && status !== 204) {
+      const _responseText = response.data;
+      return throwException(
+        "An unexpected server error occurred.",
+        status,
+        _responseText,
+        _headers
+      );
+    }
+    return Promise.resolve<Activity>(null as any);
+  }
+
+  /**
+   * Deletes an activity
+   * @param id Activity id
+   * @return When the activity has been deleted
+   */
+  deleteActivity(
+    id: string,
+    cancelToken?: CancelToken | undefined
+  ): Promise<void> {
+    let url_ = this.baseUrl + "/Activities/{id}";
+    if (id === undefined || id === null)
+      throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace("{id}", encodeURIComponent("" + id));
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_: AxiosRequestConfig = {
+      method: "DELETE",
+      url: url_,
+      headers: {},
+      cancelToken,
+    };
+
+    return this.instance
+      .request(options_)
+      .catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+          return _error.response;
+        } else {
+          throw _error;
+        }
+      })
+      .then((_response: AxiosResponse) => {
+        return this.processDeleteActivity(_response);
+      });
+  }
+
+  protected processDeleteActivity(response: AxiosResponse): Promise<void> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && typeof response.headers === "object") {
+      for (let k in response.headers) {
+        if (response.headers.hasOwnProperty(k)) {
+          _headers[k] = response.headers[k];
+        }
+      }
+    }
+    if (status === 204) {
+      return Promise.resolve<void>(null as any);
+    } else if (status === 404) {
+      const _responseText = response.data;
+      return throwException(
+        "When the activity is not found",
+        status,
+        _responseText,
+        _headers
+      );
+    } else if (status !== 200 && status !== 204) {
+      const _responseText = response.data;
+      return throwException(
+        "An unexpected server error occurred.",
+        status,
+        _responseText,
+        _headers
+      );
+    }
+    return Promise.resolve<void>(null as any);
   }
 }
 
@@ -382,13 +517,26 @@ export class UsersClient {
   }
 }
 
-export interface Activities {
+export interface Activity {
+  id?: string;
+  activityTypeId?: string;
+  date?: string;
+  completed?: boolean;
+
   [key: string]: any;
 }
 
 export interface ActivityType {
   id?: string;
   name?: string;
+
+  [key: string]: any;
+}
+
+export interface CreateNewActivityRequest {
+  activityType?: string;
+  date?: string;
+  isCompleted?: boolean;
 
   [key: string]: any;
 }
