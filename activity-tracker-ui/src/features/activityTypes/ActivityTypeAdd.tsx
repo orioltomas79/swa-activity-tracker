@@ -2,9 +2,9 @@ import { Field, FieldProps, Form, Formik } from "formik";
 import Title from "../../components/Title";
 import { Box, Button, Grid, TextField } from "@mui/material";
 import * as Yup from "yup";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { postActivityType } from "./store/actions";
-
+import { selectActivityTypes } from "./store/selectors";
 
 interface FormValues {
   activityTypeName: string;
@@ -20,13 +20,18 @@ const validationSchema = Yup.object({
 
 const ActivityTypeAdd = () => {
   const dispatch = useAppDispatch();
+  const activityTypesState = useAppSelector(selectActivityTypes);
 
   const handleSubmit = async (values: FormValues) => {
-    await dispatch(
-      postActivityType({
-        name: values.activityTypeName,
-      })
-    ).unwrap();
+    try {
+      await dispatch(
+        postActivityType({
+          name: values.activityTypeName,
+        })
+      ).unwrap();
+    } catch (error) {
+      console.error("Error removing item:", error);
+    }
   };
 
   return (
@@ -73,6 +78,10 @@ const ActivityTypeAdd = () => {
                     type="submit"
                     variant="contained"
                     color="primary"
+                    disabled={
+                      activityTypesState.fetchStatus === "idle" ||
+                      activityTypesState.operationStatus === "loading"
+                    }
                   >
                     Add
                   </Button>

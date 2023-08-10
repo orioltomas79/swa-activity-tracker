@@ -3,12 +3,14 @@ import { ActivityType } from "../../../api/apiClient.g.nswag";
 
 export interface ActivityTypesState {
   activityTypes: ActivityType[];
-  status: ThunkActionStatus;
+  fetchStatus: ThunkActionStatus;
+  operationStatus: ThunkActionStatus;
   error: string | undefined;
 }
 
 export const initialState: ActivityTypesState = {
   activityTypes: [],
-  status: "idle",
+  fetchStatus: "idle",
+  operationStatus: "idle",
   error: undefined,
 };

@@ -16,38 +16,38 @@ export const activityTypesSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchActivityTypes.pending, (state) => {
-        state.status = "loading";
+        state.fetchStatus = "loading";
       })
       .addCase(fetchActivityTypes.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.fetchStatus = "succeeded";
         state.activityTypes = action.payload;
       })
       .addCase(fetchActivityTypes.rejected, (state, action) => {
-        state.status = "failed";
+        state.fetchStatus = "failed";
         state.error = action.error.message;
       })
       .addCase(postActivityType.pending, (state) => {
-        state.status = "loading";
+        state.operationStatus = "loading";
       })
       .addCase(postActivityType.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.operationStatus = "succeeded";
         state.activityTypes.push(action.payload);
       })
       .addCase(postActivityType.rejected, (state, action) => {
-        state.status = "failed";
+        state.operationStatus = "failed";
         state.error = action.error.message;
       })
       .addCase(deleteActivityType.pending, (state) => {
-        state.status = "loading";
+        state.operationStatus = "loading";
       })
       .addCase(deleteActivityType.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.operationStatus = "succeeded";
         state.activityTypes = state.activityTypes.filter(
           (a) => a.id !== action.meta.arg
         );
       })
       .addCase(deleteActivityType.rejected, (state, action) => {
-        state.status = "failed";
+        state.operationStatus = "failed";
         state.error = action.error.message;
       });
   },

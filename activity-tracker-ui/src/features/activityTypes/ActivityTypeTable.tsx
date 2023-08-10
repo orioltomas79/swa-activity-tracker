@@ -18,17 +18,15 @@ export default function ActivityTypeTable() {
   const dispatch = useAppDispatch();
 
   const activityTypes = useAppSelector(selectActivityTypes).activityTypes;
-  const activityTypesStatus = useAppSelector(selectActivityTypes).status;
+  const activityTypesFetchStatus = useAppSelector(selectActivityTypes).fetchStatus;
   const activityTypesError = useAppSelector(selectActivityTypes).error;
 
   useEffect(() => {
-    if (activityTypesStatus === "idle") {
-      console.log("dispatch fetchActivityTypes");
+    if (activityTypesFetchStatus === "idle") {
       dispatch(fetchActivityTypes());
     }
-  }, [activityTypesStatus, dispatch]);
+  }, [activityTypesFetchStatus, dispatch]);
 
-  // Review unwrap
   const handleRemove = async (id: string) => {
     try {
       await dispatch(deleteActivityType(id)).unwrap();
@@ -39,9 +37,9 @@ export default function ActivityTypeTable() {
 
   let content;
 
-  if (activityTypesStatus === "loading") {
+  if (activityTypesFetchStatus === "loading") {
     content = <p>Loading...</p>;
-  } else if (activityTypesStatus === "succeeded") {
+  } else if (activityTypesFetchStatus === "succeeded") {
     content = (
       <Table size="small">
         <TableHead>
@@ -62,7 +60,7 @@ export default function ActivityTypeTable() {
         </TableBody>
       </Table>
     );
-  } else if (activityTypesStatus === "failed") {
+  } else if (activityTypesFetchStatus === "failed") {
     content = <div>{activityTypesError}</div>;
   }
 
