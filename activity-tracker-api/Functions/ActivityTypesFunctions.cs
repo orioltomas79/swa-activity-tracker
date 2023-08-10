@@ -34,7 +34,7 @@ namespace ActivityTracker.Api.Functions
         [OpenApiOperation(tags: new[] { ActivityTypesTag }, operationId: nameof(GetActivityTypes), Summary = "Gets all activity types")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<ActivityType>), Description = "Returns all activity types")]
         public async Task<ActionResult<List<ActivityType>>> GetActivityTypes(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "ActivityTypes")] HttpRequest req)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = ApiEndpoints.ActivityTypes)] HttpRequest req)
         {
             _logger.LogInformation("{GetActivityTypes} started.", nameof(GetActivityTypes));
             
@@ -49,7 +49,7 @@ namespace ActivityTracker.Api.Functions
         [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(CreateNewActivityTypeRequest), Description = "The activity type")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(ActivityType), Description = "Returns the activity type that has been created")]
         public async Task<ActionResult<ActivityType>> AddActivityType(
-          [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "ActivityTypes")] HttpRequest req)
+          [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = ApiEndpoints.ActivityTypes)] HttpRequest req)
         {
             _logger.LogInformation("{AddActivityType} started.", nameof(AddActivityType));
 
@@ -80,7 +80,7 @@ namespace ActivityTracker.Api.Functions
         [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NoContent, Description = "When the activity type has been deleted")]
         [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NotFound, Description = "When the activity type is not found")]
         public async Task<ActionResult> DeleteActivityType(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "ActivityTypes/{id:Guid}")] HttpRequest req, Guid id)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = ApiEndpoints.ActivityType)] HttpRequest req, Guid id)
         {
             _logger.LogInformation("{DeleteActivityType} started.", nameof(DeleteActivityType));
 
