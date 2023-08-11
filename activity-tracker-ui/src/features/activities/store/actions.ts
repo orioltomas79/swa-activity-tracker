@@ -23,6 +23,6 @@ export const postActivity = createAsyncThunk(
 export const deleteActivity = createAsyncThunk(
   DELETE_ACTIVITIES,
   async (activityId: string) => {
-    return await apiClient.activities.deleteActivity(activityId);
+    return await apiClient.activities.deleteActivity(1, 1, activityId);
   }
 );

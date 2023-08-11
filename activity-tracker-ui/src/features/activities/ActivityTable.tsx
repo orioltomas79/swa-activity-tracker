@@ -38,7 +38,6 @@ export default function ActivityTable() {
             <TableRow>
               <TableCell>Activity type</TableCell>
               <TableCell>Date</TableCell>
-              <TableCell>Completed?</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
@@ -47,7 +46,6 @@ export default function ActivityTable() {
               <TableRow key={row.id}>
                 <TableCell>{row.activityTypeId}</TableCell>
                 <TableCell>{row.date}</TableCell>
-                <TableCell>{row.completed}</TableCell>
                 <TableCell align="right">Remove</TableCell>
               </TableRow>
             ))}

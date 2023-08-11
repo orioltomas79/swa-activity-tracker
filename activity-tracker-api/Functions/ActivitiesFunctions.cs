@@ -15,7 +15,7 @@ using Microsoft.OpenApi.Models;
 
 namespace ActivityTracker.Api.Functions
 {
-    public class ActivitiesFunctions
+    public class ActivitiesFunctions : BaseFunction
     {
         private const string ActivitiesTag = "Activities";
 
@@ -36,17 +36,11 @@ namespace ActivityTracker.Api.Functions
         {
             _logger.LogInformation("GetActivityTypes started.");
 
-            var list = new List<Activity>()
-            {
-                new ()
-                {
-                    Id = Guid.NewGuid(),
-                    ActivityTypeId = Guid.NewGuid(),
-                    Date = DateTime.Now,
-                }
-            };
+            var claimsPrincipal = StaticWebAppsAuth.GetClaimsPrincipal(req);
 
-            return new OkObjectResult(list);
+            var activities = await _activitiesRepository.GetActivitiesAsync(claimsPrincipal.GetUserId());
+
+            return new OkObjectResult(activities);
         }
 
         [FunctionName(nameof(AddActivity))]
@@ -58,20 +52,37 @@ namespace ActivityTracker.Api.Functions
         {
             _logger.LogInformation("{AddActivity} started.", nameof(AddActivity));
 
-            var activity = new Activity();
+            var claimsPrincipal = StaticWebAppsAuth.GetClaimsPrincipal(req);
 
-            return new CreatedAtActionResult("actionName", "controllerName", null, activity);
+            var createNewActivityRequest = await GetRequestBodyAsync<CreateNewActivityRequest>(req);
+
+            var activity = new Activity()
+            {
+                Id = Guid.NewGuid(),
+                Date = createNewActivityRequest.Date,
+                ActivityTypeId = createNewActivityRequest.ActivityType
+            };
+
+            await _activitiesRepository.AddActivityAsync(claimsPrincipal.GetUserId(), activity);
+
+            return new CreatedAtActionResult("NA", "NA", null, activity);
         }
 
         [FunctionName(nameof(DeleteActivity))]
         [OpenApiOperation(tags: new[] { ActivitiesTag }, operationId: nameof(DeleteActivity), Summary = "Deletes an activity")]
+        [OpenApiParameter(name: "year", In = ParameterLocation.Path, Required = true, Type = typeof(int), Description = "Activity year")]
+        [OpenApiParameter(name: "month", In = ParameterLocation.Path, Required = true, Type = typeof(int), Description = "Activity month")]
         [OpenApiParameter(name: "id", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "Activity id")]
         [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NoContent, Description = "When the activity has been deleted")]
         [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NotFound, Description = "When the activity is not found")]
         public async Task<ActionResult> DeleteActivity(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = ApiEndpoints.Activity)] HttpRequest req, Guid id)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = ApiEndpoints.Activity)] HttpRequest req, int year, int month, Guid id)
         {
             _logger.LogInformation("{DeleteActivity} started.", nameof(DeleteActivity));
+
+            var claimsPrincipal = StaticWebAppsAuth.GetClaimsPrincipal(req);
+
+            await _activitiesRepository.DeleteActivityAsync(claimsPrincipal.GetUserId(), year, month, id);
 
             return new NoContentResult();
         }

@@ -18,7 +18,7 @@ public static class StaticWebAppsAuth
         public IEnumerable<string> UserRoles { get; set; }
     }
 
-    public static ClaimsPrincipal Parse(HttpRequest req)
+    public static ClaimsPrincipal GetClaimsPrincipal(HttpRequest req)
     {
         var principal = new ClientPrincipal();
 
@@ -43,5 +43,9 @@ public static class StaticWebAppsAuth
         identity.AddClaims(principal.UserRoles.Select(r => new Claim(ClaimTypes.Role, r)));
 
         return new ClaimsPrincipal(identity);
+    }
+
+    public static string GetUserId(this ClaimsPrincipal input){
+        return input.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value;    
     }
 }

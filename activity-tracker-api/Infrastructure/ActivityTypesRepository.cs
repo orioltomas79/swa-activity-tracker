@@ -1,63 +1,40 @@
 ﻿using ActivityTracker.Api.Models;
-using Azure.Storage.Blobs;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ActivityTracker.Api.Infrastructure
 {
-    public class ActivityTypesRepository : IActivityTypesRepository
+    internal class ActivityTypesRepository : BlobRepository, IActivityTypesRepository
     {
-        private const string ContainerName = "activity-traker";
-        private const string BlobName = "ActivityTypes.json";
-
-
-        public async Task<List<ActivityType>> GetAllActivityTypes()
+        public async Task<List<ActivityType>> GetAllActivityTypesAsync(string userId)
         {
-            var blobClient = await GetBlobClientAsync(ContainerName, BlobName);
-            return await ReadListAsync(blobClient);
+            var blobClient = await GetBlobClientAsync(ContainerName, GetBlobName(userId));
+            return await ReadListAsync<ActivityType>(blobClient);
         }
 
-        public async Task SaveActivityTypes(List<ActivityType> list)
+        public async Task AddActivityTypeAsync(string userId, ActivityType activityType)
         {
-            var blobClient = await GetBlobClientAsync(ContainerName, BlobName);
-            await WriteListAsync(blobClient, list);
+            var blobClient = await GetBlobClientAsync(ContainerName, GetBlobName(userId));
+            var activityTypes = await ReadListAsync<ActivityType>(blobClient);
+            activityTypes.Add(activityType);
+            await WriteListAsync(blobClient, activityTypes);
         }
 
-        private static async Task<BlobClient> GetBlobClientAsync(string containerName, string blobName)
+        public async Task DeleteActivityTypeAsync(string userId, Guid id)
         {
-            // Create blob client
-            var connectionStr = Environment.GetEnvironmentVariable("StorageAccountConnectionString");
-            var blobContainerClient = new BlobContainerClient(connectionStr, containerName);
-            await blobContainerClient.CreateIfNotExistsAsync();
-
-            // Get a reference to a blob in a container 
-            var blobClient = blobContainerClient.GetBlobClient(blobName);
-
-            return blobClient;
+            var blobClient = await GetBlobClientAsync(ContainerName, GetBlobName(userId));
+            var activityTypes = await ReadListAsync<ActivityType>(blobClient);
+            var activityType = activityTypes.First(i => i.Id == id);
+            activityTypes.Remove(activityType);
+            await WriteListAsync(blobClient, activityTypes);
         }
 
-        private async Task<List<ActivityType>> ReadListAsync(BlobClient blobClient)
+        private static string GetBlobName(string userId)
         {
-            // Download the content
-            if (!await blobClient.ExistsAsync()) return new List<ActivityType>();
-
-            await using var memoryStream = new MemoryStream();
-            await blobClient.DownloadToAsync(memoryStream).ConfigureAwait(false);
-            var text = Encoding.UTF8.GetString(memoryStream.ToArray());
-
-            return JsonConvert.DeserializeObject<List<ActivityType>>(text);
-        }
-
-        private async Task WriteListAsync(BlobClient blobClient, List<ActivityType> list)
-        {
-            // Upload the content
-            var byteArray = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(list));
-            await using var memoryStream = new MemoryStream(byteArray);
-            await blobClient.UploadAsync(memoryStream, overwrite: true);
+            return $"{userId}/ActivityTypes.json";
         }
     }
 }

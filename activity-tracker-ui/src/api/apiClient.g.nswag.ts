@@ -159,14 +159,24 @@ export class ActivitiesClient {
 
   /**
    * Deletes an activity
+   * @param year Activity year
+   * @param month Activity month
    * @param id Activity id
    * @return When the activity has been deleted
    */
   deleteActivity(
+    year: number,
+    month: number,
     id: string,
     cancelToken?: CancelToken | undefined
   ): Promise<void> {
-    let url_ = this.baseUrl + "/Activities/{id}";
+    let url_ = this.baseUrl + "/Activities/{year}/{month}/{id}";
+    if (year === undefined || year === null)
+      throw new Error("The parameter 'year' must be defined.");
+    url_ = url_.replace("{year}", encodeURIComponent("" + year));
+    if (month === undefined || month === null)
+      throw new Error("The parameter 'month' must be defined.");
+    url_ = url_.replace("{month}", encodeURIComponent("" + month));
     if (id === undefined || id === null)
       throw new Error("The parameter 'id' must be defined.");
     url_ = url_.replace("{id}", encodeURIComponent("" + id));
@@ -521,7 +531,6 @@ export interface Activity {
   id?: string;
   activityTypeId?: string;
   date?: string;
-  completed?: boolean;
 
   [key: string]: any;
 }
@@ -536,7 +545,6 @@ export interface ActivityType {
 export interface CreateNewActivityRequest {
   activityType?: string;
   date?: string;
-  isCompleted?: boolean;
 
   [key: string]: any;
 }

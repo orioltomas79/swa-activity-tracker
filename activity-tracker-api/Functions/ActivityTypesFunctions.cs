@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -18,7 +19,7 @@ using Newtonsoft.Json;
 
 namespace ActivityTracker.Api.Functions
 {
-    public class ActivityTypesFunctions
+    public class ActivityTypesFunctions : BaseFunction
     {
         private const string ActivityTypesTag = "ActivityTypes";
         private readonly ILogger<ActivityTypesFunctions> _logger;
@@ -37,8 +38,10 @@ namespace ActivityTracker.Api.Functions
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = ApiEndpoints.ActivityTypes)] HttpRequest req)
         {
             _logger.LogInformation("{GetActivityTypes} started.", nameof(GetActivityTypes));
-            
-            var list = await _activityTypesRepository.GetAllActivityTypes();
+
+            var claimsPrincipal = StaticWebAppsAuth.GetClaimsPrincipal(req);
+
+            var list = await _activityTypesRepository.GetAllActivityTypesAsync(claimsPrincipal.GetUserId());
 
             return new OkObjectResult(list);
         }
@@ -53,12 +56,9 @@ namespace ActivityTracker.Api.Functions
         {
             _logger.LogInformation("{AddActivityType} started.", nameof(AddActivityType));
 
-            string requestBody;
-            using (var streamReader = new StreamReader(req.Body))
-            {
-                requestBody = await streamReader.ReadToEndAsync();
-            }
-            var createNewActivityTypeRequest = JsonConvert.DeserializeObject<CreateNewActivityTypeRequest>(requestBody);
+            var claimsPrincipal = StaticWebAppsAuth.GetClaimsPrincipal(req);
+
+            var createNewActivityTypeRequest = await GetRequestBodyAsync<CreateNewActivityTypeRequest>(req);
 
             var activityType = new ActivityType()
             {
@@ -66,12 +66,9 @@ namespace ActivityTracker.Api.Functions
                 Name = createNewActivityTypeRequest!.Name
             };
 
-            var list = await _activityTypesRepository.GetAllActivityTypes();
-            list.Add(activityType);
+            await _activityTypesRepository.AddActivityTypeAsync(claimsPrincipal.GetUserId(), activityType);
 
-            await _activityTypesRepository.SaveActivityTypes(list);
-
-            return new CreatedAtActionResult("actionName", "controllerName", null, activityType);
+            return new CreatedAtActionResult("NA", "NA", null, activityType);
         }
 
         [FunctionName(nameof(DeleteActivityType))]
@@ -84,11 +81,9 @@ namespace ActivityTracker.Api.Functions
         {
             _logger.LogInformation("{DeleteActivityType} started.", nameof(DeleteActivityType));
 
-            var list = await _activityTypesRepository.GetAllActivityTypes();
+            var claimsPrincipal = StaticWebAppsAuth.GetClaimsPrincipal(req);
 
-            var item = list.FirstOrDefault(i => i.Id == id);
-            list.Remove(item);
-            await _activityTypesRepository.SaveActivityTypes(list);
+            await _activityTypesRepository.DeleteActivityTypeAsync(claimsPrincipal.GetUserId(), id);
 
             return new NoContentResult();
         }

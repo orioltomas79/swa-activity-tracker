@@ -7,7 +7,5 @@ namespace ActivityTracker.Api.Requests
         public Guid ActivityType { get; set; }
         
         public DateTime Date { get; set; }
-
-        public bool IsCompleted { get; set; }
     }
 }

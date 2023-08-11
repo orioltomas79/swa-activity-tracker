@@ -26,7 +26,7 @@ namespace ActivityTracker.Api.Functions
         {
             _logger.LogInformation("GetUserClaims function processed a request.");
 
-            var claimsPrincipal = StaticWebAppsAuth.Parse(req);
+            var claimsPrincipal = StaticWebAppsAuth.GetClaimsPrincipal(req);
 
             var userClaims = new UserClaims()
             {

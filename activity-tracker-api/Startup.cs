@@ -11,6 +11,7 @@ namespace ActivityTracker.Api
         public override void Configure(IFunctionsHostBuilder builder)
         {
             builder.Services.AddTransient<IActivityTypesRepository, ActivityTypesRepository>();
+            builder.Services.AddTransient<IActivitiesRepository, ActivitiesRepository>();
             builder.Services.AddLogging();
         }
     }
