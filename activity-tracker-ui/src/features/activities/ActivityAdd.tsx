@@ -2,23 +2,31 @@ import Typography from "@mui/material/Typography";
 import Title from "../../components/Title";
 import { DatePicker } from "@mui/x-date-pickers";
 import { Box, Button, InputLabel, MenuItem, Select } from "@mui/material";
+import { useAppSelector } from "../../app/hooks";
+import { selectActivityTypes } from "../activityTypes/store/selectors";
+import { useState } from "react";
+
 
 export default function ActivityAdd() {
+  const activityTypes = useAppSelector(selectActivityTypes).activityTypes;
+  const [selectedOption, setSelectedOption] = useState(activityTypes[0].id);
+
   return (
     <>
       <Title>Add activity</Title>
       <Typography color="text.secondary">Date</Typography>
       <DatePicker />
       <Box marginTop={1} sx={{ minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-label">Activity Type</InputLabel>
+        <InputLabel>Activity Type</InputLabel>
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
           label="Activty type"
+          value={selectedOption}
         >
-          <MenuItem value={10}>Padel - Partit</MenuItem>
-          <MenuItem value={20}>Gym - Cames</MenuItem>
-          <MenuItem value={30}>Gym - Esquena</MenuItem>
+          {activityTypes.map((r) => (
+            <MenuItem key={r.id} value={r.id}>
+              {r.name}
+            </MenuItem>
+          ))}
         </Select>
       </Box>
       <Box marginTop={2}>
