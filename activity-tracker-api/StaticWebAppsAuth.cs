@@ -30,6 +30,22 @@ public static class StaticWebAppsAuth
             principal = JsonSerializer.Deserialize<ClientPrincipal>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
 
+#if DEBUG
+        // For local testing only.
+        // We can test the backend withouth the frontend by creating a ClientPrincipal manually
+        // if the header x-ms-client-principal is not present.
+        if (principal.UserRoles == null)
+        {
+            principal = new ClientPrincipal
+            {
+                IdentityProvider = "github",
+                UserId = "fake-user-id",
+                UserDetails = "fake-user-name",
+                UserRoles = new[] { "authenticated" }
+            };
+        }
+#endif
+
         principal.UserRoles = principal.UserRoles?.Except(new string[] { "anonymous" }, StringComparer.CurrentCultureIgnoreCase);
 
         if (!principal.UserRoles?.Any() ?? true)
@@ -45,7 +61,8 @@ public static class StaticWebAppsAuth
         return new ClaimsPrincipal(identity);
     }
 
-    public static string GetUserId(this ClaimsPrincipal input){
-        return input.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value;    
+    public static string GetUserId(this ClaimsPrincipal input)
+    {
+        return input.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value;
     }
 }
