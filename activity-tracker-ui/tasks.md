@@ -11,6 +11,7 @@ A brief description of the project.
 - Improve readme file
 - It cannot be tested with swagger because the header is not added.
 - An activityType should never be deleted. It should be archived
+- In prod the azure blob storage user folder name is wrong.
 
 ## FE tasks
 
@@ -20,3 +21,4 @@ A brief description of the project.
 - AddActivity: Add formik and yup to add activity.
 - AddActivity: Show the activity type name instead of the id.
 - Login and logout
+- We are only returning the activities of the current month.
