@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import axios, { AxiosInstance } from "axios";
 import { ActivitiesClient, ActivityTypesClient, UsersClient } from "./apiClient.g.nswag";
 

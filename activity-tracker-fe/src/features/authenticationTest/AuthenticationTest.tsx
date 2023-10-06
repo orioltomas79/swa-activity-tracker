@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-
 import { useState, useCallback } from "react";
 import { Button, Grid, Link, Paper } from "@mui/material";
 import apiClient from "../../api/apiClient";
