@@ -1,5 +1,9 @@
 import axios, { AxiosInstance } from "axios";
-import { ActivitiesClient, ActivityTypesClient, UsersClient } from "./apiClient.g.nswag";
+import {
+  ActivitiesClient,
+  ActivityTypesClient,
+  UsersClient,
+} from "./apiClient.g.nswag";
 
 class ApiClient {
   private readonly axios: AxiosInstance;

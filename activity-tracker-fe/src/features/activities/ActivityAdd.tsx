@@ -15,9 +15,7 @@ export default function ActivityAdd() {
       <DatePicker />
       <Box marginTop={1} sx={{ minWidth: 120 }}>
         <InputLabel>Activity Type</InputLabel>
-        <Select
-          label="Activty type"
-        >
+        <Select label="Activty type">
           {activityTypes.map((r) => (
             <MenuItem key={r.id} value={r.id}>
               {r.name}

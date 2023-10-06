@@ -16,7 +16,8 @@ export default function ActivityTypeTable() {
   const dispatch = useAppDispatch();
 
   const activityTypes = useAppSelector(selectActivityTypes).activityTypes;
-  const activityTypesFetchStatus = useAppSelector(selectActivityTypes).fetchStatus;
+  const activityTypesFetchStatus =
+    useAppSelector(selectActivityTypes).fetchStatus;
   const activityTypesError = useAppSelector(selectActivityTypes).error;
 
   useEffect(() => {

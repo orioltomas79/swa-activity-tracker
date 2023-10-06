@@ -6,12 +6,9 @@ const FETCH_ACTIVITIES = "activities/FETCH_ACTIVITIES";
 const SAVE_ACTIVITIES = "activities/SAVE_ACTIVITIES";
 const DELETE_ACTIVITIES = "activities/DELETE_ACTIVITIES";
 
-export const fetchActivities = createAsyncThunk(
-  FETCH_ACTIVITIES,
-  async () => {
-    return await apiClient.activities.getActivities();
-  }
-);
+export const fetchActivities = createAsyncThunk(FETCH_ACTIVITIES, async () => {
+  return await apiClient.activities.getActivities();
+});
 
 export const postActivity = createAsyncThunk(
   SAVE_ACTIVITIES,

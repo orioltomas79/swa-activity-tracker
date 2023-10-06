@@ -48,7 +48,9 @@ export default function ResponsiveDrawer() {
           </ListItemIcon>
           <ListItemText primary="Home" />
         </ListItemButton>
-        <ListItemButton onClick={() => handleListItemButtonClick("activity-types")}>
+        <ListItemButton
+          onClick={() => handleListItemButtonClick("activity-types")}
+        >
           <ListItemIcon>
             <ListOutlinedIcon />
           </ListItemIcon>
