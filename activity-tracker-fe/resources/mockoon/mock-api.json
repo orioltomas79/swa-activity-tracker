@@ -4,7 +4,7 @@
   "name": "Activity tracker API",
   "endpointPrefix": "api",
   "latency": 0,
-  "port": 3000,
+  "port": 3001,
   "hostname": "",
   "folders": [],
   "routes": [
