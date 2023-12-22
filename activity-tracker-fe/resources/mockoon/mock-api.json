@@ -1,0 +1,356 @@
+{
+  "uuid": "69af9fb0-3b3d-4624-ae7a-77823e927927",
+  "lastMigration": 32,
+  "name": "Activity tracker API",
+  "endpointPrefix": "api",
+  "latency": 0,
+  "port": 3000,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "2cd3ec3c-3273-481b-8efe-229c7a9e6314",
+      "type": "http",
+      "documentation": "Gets all activities",
+      "method": "get",
+      "endpoint": "Activities",
+      "responses": [
+        {
+          "uuid": "240b694e-dc74-4815-b316-126603b78c04",
+          "body": "[\n  {\n    \"id\": \"{{faker 'string.uuid'}}\",\n    \"activityTypeId\": \"{{faker 'string.uuid'}}\",\n    \"date\": \"{{faker 'date.recent' 365}}\"\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Returns all activities",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "7ad534fc-c17d-4dac-8ea5-9af3f9149d87",
+      "type": "http",
+      "documentation": "Adds a new activity",
+      "method": "post",
+      "endpoint": "Activities",
+      "responses": [
+        {
+          "uuid": "f4347edb-6f2d-4dd1-a895-11b4f34ccfc2",
+          "body": "{\n  \"id\": \"{{faker 'string.uuid'}}\",\n  \"activityTypeId\": \"{{faker 'string.uuid'}}\",\n  \"date\": \"{{faker 'date.recent' 365}}\"\n}",
+          "latency": 0,
+          "statusCode": 201,
+          "label": "Returns the activity that has been created",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "0e304ee4-81a8-4cb7-938d-f1a698281b97",
+      "type": "http",
+      "documentation": "Deletes an activity",
+      "method": "delete",
+      "endpoint": "Activities/:year/:month/:id",
+      "responses": [
+        {
+          "uuid": "85401db7-1cb9-4278-a8a1-ac25ae6e62ff",
+          "body": "",
+          "latency": 0,
+          "statusCode": 204,
+          "label": "When the activity has been deleted",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "fe546abe-e76c-4c14-8efb-71bfa0c9e8bc",
+          "body": "",
+          "latency": 0,
+          "statusCode": 404,
+          "label": "When the activity is not found",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "111ff6d5-286b-4867-b224-5afc6bcb8f0e",
+      "type": "http",
+      "documentation": "Gets all activity types",
+      "method": "get",
+      "endpoint": "ActivityTypes",
+      "responses": [
+        {
+          "uuid": "8d0efb49-59dd-4013-a155-c96aa4510105",
+          "body": "[\n  {\n    \"id\": \"{{faker 'string.uuid'}}\",\n    \"name\": \"test\"\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Returns all activity types",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "6005bdd1-c50b-42cb-ae40-5ac6b2ab82a5",
+      "type": "http",
+      "documentation": "Adds a new activity type",
+      "method": "post",
+      "endpoint": "ActivityTypes",
+      "responses": [
+        {
+          "uuid": "eedbca93-450d-4ec2-a3d6-a85f07d5876b",
+          "body": "{\n  \"id\": \"{{faker 'string.uuid'}}\",\n  \"name\": \"\"\n}",
+          "latency": 0,
+          "statusCode": 201,
+          "label": "Returns the activity type that has been created",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "4292ff14-a555-4693-8271-c84ba7942b1e",
+      "type": "http",
+      "documentation": "Deletes an activity type",
+      "method": "delete",
+      "endpoint": "ActivityTypes/:id",
+      "responses": [
+        {
+          "uuid": "8f526d76-dd3d-4e90-aab4-1ed5b792b3bd",
+          "body": "",
+          "latency": 0,
+          "statusCode": 204,
+          "label": "When the activity type has been deleted",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "0d5bb530-a195-4a00-896b-7bf8b63499f2",
+          "body": "",
+          "latency": 0,
+          "statusCode": 404,
+          "label": "When the activity type is not found",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "7771f7fb-f499-4a4c-8df1-4a508d90deea",
+      "type": "http",
+      "documentation": "Gets current user claims",
+      "method": "get",
+      "endpoint": "GetUserClaims",
+      "responses": [
+        {
+          "uuid": "8213ddf8-0cb0-4616-9a00-7bf40eba36af",
+          "body": "{\n  \"name\": \"\",\n  \"authType\": \"\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "The OK response",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "2cd3ec3c-3273-481b-8efe-229c7a9e6314"
+    },
+    {
+      "type": "route",
+      "uuid": "7ad534fc-c17d-4dac-8ea5-9af3f9149d87"
+    },
+    {
+      "type": "route",
+      "uuid": "0e304ee4-81a8-4cb7-938d-f1a698281b97"
+    },
+    {
+      "type": "route",
+      "uuid": "111ff6d5-286b-4867-b224-5afc6bcb8f0e"
+    },
+    {
+      "type": "route",
+      "uuid": "6005bdd1-c50b-42cb-ae40-5ac6b2ab82a5"
+    },
+    {
+      "type": "route",
+      "uuid": "4292ff14-a555-4693-8271-c84ba7942b1e"
+    },
+    {
+      "type": "route",
+      "uuid": "7771f7fb-f499-4a4c-8df1-4a508d90deea"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "callbacks": []
+}
