@@ -11,13 +11,17 @@ class ApiClient {
   public readonly activities: ActivitiesClient;
   public readonly users: UsersClient;
 
+  // Mock api:
+  // private static apiUrl: string = "http://localhost:3001/api";
+  private static apiUrl: string = "/api";
+
   constructor() {
     this.axios = axios.create({
       transformResponse: (data) => data,
     });
-    this.activityTypes = new ActivityTypesClient("/api", this.axios);
-    this.activities = new ActivitiesClient("/api", this.axios);
-    this.users = new UsersClient("/api", this.axios);
+    this.activityTypes = new ActivityTypesClient(ApiClient.apiUrl, this.axios);
+    this.activities = new ActivitiesClient(ApiClient.apiUrl, this.axios);
+    this.users = new UsersClient(ApiClient.apiUrl, this.axios);
   }
 }
 
