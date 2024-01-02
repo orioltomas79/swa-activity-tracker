@@ -1,4 +1,3 @@
-import axios, { AxiosInstance } from "axios";
 import {
   ActivitiesClient,
   ActivityTypesClient,
@@ -6,7 +5,6 @@ import {
 } from "./apiClient.g.nswag";
 
 class ApiClient {
-  private readonly axios: AxiosInstance;
   public readonly activityTypes: ActivityTypesClient;
   public readonly activities: ActivitiesClient;
   public readonly users: UsersClient;
@@ -16,12 +14,21 @@ class ApiClient {
   private static apiUrl: string = "/api";
 
   constructor() {
-    this.axios = axios.create({
-      transformResponse: (data) => data,
-    });
-    this.activityTypes = new ActivityTypesClient(ApiClient.apiUrl, this.axios);
-    this.activities = new ActivitiesClient(ApiClient.apiUrl, this.axios);
-    this.users = new UsersClient(ApiClient.apiUrl, this.axios);
+    this.activityTypes = new ActivityTypesClient(ApiClient.apiUrl, this);
+    this.activities = new ActivitiesClient(ApiClient.apiUrl, this);
+    this.users = new UsersClient(ApiClient.apiUrl, this);
+  }
+
+  public fetch(
+    url: RequestInfo,
+    init?: RequestInit | undefined
+  ): Promise<Response> {
+    init = init ?? {};
+    init.headers = init.headers ?? {};
+    init.headers = {
+      ...init.headers,
+    };
+    return window.fetch(url, init);
   }
 }
 
