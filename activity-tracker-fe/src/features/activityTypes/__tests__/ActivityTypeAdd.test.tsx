@@ -1,9 +1,9 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import ActivityTypeAdd from "../ActivityTypeAdd";
 import { Provider } from "react-redux";
 import { store } from "../../../app/store";
 
-describe("ActivityTypeAdd", () => {
+describe("<ActivityTypeAdd />", () => {
   const renderComponent = (defaultStore = store) =>
     render(
       <Provider store={defaultStore}>
@@ -11,7 +11,10 @@ describe("ActivityTypeAdd", () => {
       </Provider>
     );
 
-  it("Show warning message if the user has funds", async () => {
+  it("Renders component", async () => {
     renderComponent();
+
+    await screen.findByTestId("add-activity-type-form");
+    await screen.findByRole("button", { name: "Add" });
   });
 });

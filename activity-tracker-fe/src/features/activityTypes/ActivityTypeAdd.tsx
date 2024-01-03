@@ -41,7 +41,7 @@ const ActivityTypeAdd = () => {
       onSubmit={handleSubmit}
     >
       {() => (
-        <Form>
+        <Form data-testid="add-activity-type-form">
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Title>Add activity</Title>
