@@ -152,9 +152,9 @@ class ApiClient {
     callEndpointOptions: CallEndpointOptions
   ): FailedResponse => {
     err = err ?? {};
-    if (appSettings.nodeEnv !== "production") {
-      console.error(err);
-    }
+    // if (appSettings.nodeEnv !== "production") {
+    console.error(err);
+    //}
 
     const statusCode = this.getStatusCode(err);
 
