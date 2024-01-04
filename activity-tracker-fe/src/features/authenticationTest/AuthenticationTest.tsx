@@ -1,10 +1,9 @@
 import { useState, useCallback } from "react";
 import { Button, Grid, Link, Paper } from "@mui/material";
-import apiClient from "../../api/apiClient";
 import Title from "../../components/Title";
+import appSettings from "src/appSettings";
 
 const AuthenticationTest = () => {
-  const [dataAxios, setDataAxios] = useState("");
   const [dataFetch, setDataFetch] = useState("");
   const [error, setError] = useState(null);
 
@@ -12,15 +11,6 @@ const AuthenticationTest = () => {
     try {
       const text = await (await fetch(`/api/GetUserClaims`)).text();
       setDataFetch(text);
-    } catch (error: any) {
-      setError(error.message);
-    }
-  }, []);
-
-  const callAxiosHandler = useCallback(async () => {
-    try {
-      const text = await apiClient.users.getUserClaims();
-      setDataAxios(text.name! + " - " + text.authType!);
     } catch (error: any) {
       setError(error.message);
     }
@@ -41,7 +31,6 @@ const AuthenticationTest = () => {
           <Button variant="outlined" onClick={callFetchHandler}>
             Call fetch
           </Button>
-          <Button onClick={callAxiosHandler}>Call axios</Button>
         </Paper>
       </Grid>
 
@@ -49,9 +38,20 @@ const AuthenticationTest = () => {
         <Paper>
           <p>Result:</p>
           <div>{dataFetch}</div>
-          <div>{dataAxios}</div>
           <p>Error:</p>
           <div>{error}</div>
+        </Paper>
+      </Grid>
+      <Grid item xs={12}>
+        <Paper>
+          <p>Name:</p>
+          <div>{appSettings.name}</div>
+          <p>NodeEnv:</p>
+          <div>{appSettings.nodeEnv}</div>
+          <p>Version:</p>
+          <div>{appSettings.version}</div>
+          <p>Api url:</p>
+          <div>{appSettings.api.baseUrl}</div>
         </Paper>
       </Grid>
     </Grid>

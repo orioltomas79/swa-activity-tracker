@@ -39,7 +39,7 @@ export const activitiesSlice = createSlice({
       .addCase(deleteActivity.fulfilled, (state, action) => {
         state.operationStatus = "succeeded";
         state.activities = state.activities.filter(
-          (a) => a.id !== action.meta.arg
+          (a) => a.id !== action.meta.arg.id
         );
       })
       .addCase(deleteActivity.rejected, (state, action) => {
