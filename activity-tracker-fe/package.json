@@ -9,17 +9,13 @@
     "@mui/material": "^5.13.7",
     "@mui/x-date-pickers": "^6.10.0",
     "@reduxjs/toolkit": "^1.9.5",
-    "@types/node": "^16.18.57",
-    "@types/react": "^18.2.25",
-    "@types/react-dom": "^18.2.10",
     "dayjs": "^1.11.9",
     "formik": "^2.4.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.1",
     "react-router-dom": "^6.14.1",
-    "react-scripts": "5.0.1",
-    "typescript": "^4.9.5",
+    "util": "^0.12.5",
     "yup": "^1.2.0"
   },
   "devDependencies": {
@@ -28,18 +24,27 @@
     "@testing-library/user-event": "^14.4.3",
     "@types/jest": "^27.5.2",
     "@types/chance": "^1.1.6",
+    "@types/node": "~18.13.0",
+    "@types/react": "^18.2.25",
+    "@types/react-dom": "^18.2.10",
+    "env-cmd": "^10.1.0",
     "builder-pattern": "^2.2.0",
     "chance": "^1.1.11",
     "eslint": "^8.50.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "nswag": "^13.18.2",
-    "prettier": "^2.8.7"
+    "prettier": "^2.8.7",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.9.5"
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:mock": "env-cmd -f .env.mock react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:clear": "npm test --clearCache",
+    "test:coverage": "npm test -- --coverage --watchAll",
     "eject": "react-scripts eject",
     "swa:start": "swa start http://localhost:3000",
     "format": "prettier --write src/**/*.{ts,tsx,scss,css,json}",
@@ -65,5 +70,27 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/src/index.tsx",
+      "<rootDir>/src/appSettings.ts",
+      "<rootDir>/src/features/DevPage*",
+      "<rootDir>/src/api/apiClient.g.nswag.ts"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 80,
+        "branches": 80,
+        "lines": 80,
+        "functions": 80
+      },
+      "./src/api/": {
+        "statements": 90,
+        "branches": 90,
+        "functions": 90,
+        "lines": 90
+      }
+    }
   }
 }

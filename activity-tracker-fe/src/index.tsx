@@ -10,7 +10,8 @@ import { Provider } from "react-redux";
 import { store } from "./app/store";
 import ActivityTypes from "./features/activityTypes";
 import Activities from "./features/activities";
-import AuthenticationTest from "./features/authenticationTest/AuthenticationTest";
+import DevPage from "./features/DevPage";
+import Snackbar from "./features/Snackbar";
 
 const defaultTheme = createTheme();
 
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
       { path: "/", element: <Activities /> },
       { path: "/activities", element: <Activities /> },
       { path: "/activity-types", element: <ActivityTypes /> },
-      { path: "/authentication-test", element: <AuthenticationTest /> },
+      { path: "/devpage", element: <DevPage /> },
     ],
   },
 ]);
@@ -35,6 +36,7 @@ root.render(
     <Provider store={store}>
       <ThemeProvider theme={defaultTheme}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <Snackbar />
           <RouterProvider router={router} />
         </LocalizationProvider>
       </ThemeProvider>

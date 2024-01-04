@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import InfoIcon from "@mui/icons-material/Info";
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -59,13 +59,11 @@ export default function ResponsiveDrawer() {
       </List>
       <Divider />
       <List>
-        <ListItemButton
-          onClick={() => handleListItemButtonClick("authentication-test")}
-        >
+        <ListItemButton onClick={() => handleListItemButtonClick("devpage")}>
           <ListItemIcon>
-            <ShoppingCartIcon />
+            <InfoIcon />
           </ListItemIcon>
-          <ListItemText primary="AuthenticationTest" />
+          <ListItemText primary="Dev page" />
         </ListItemButton>
       </List>
     </div>
