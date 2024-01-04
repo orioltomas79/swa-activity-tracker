@@ -49,8 +49,8 @@ namespace ActivityTracker.Api.Functions
                 // TODO: We don't want to write this try an catch for all methods. We should use a middleware.
                 var problemDetails = new ProblemDetails()
                 {
-                    Title = "Internal server error",
-                    Detail = e.Message
+                    Title = e.Message,
+                    Detail = e.ToString()
                 };
                 return new ObjectResult(problemDetails)
                 {
