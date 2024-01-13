@@ -1,0 +1,18 @@
+Documentation
+- api client
+- api client tests
+- Show api client errors with Snackbar
+
+
+Redux
+- Snail redux vs Risk Profile redux
+- Redux - Actions - tests
+- Update documentation
+
+
+Components - tests
+- Complete ActivityTypeAdd
+- Complete ActivityTypeTable
+
+
+Implement Activities
