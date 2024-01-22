@@ -44,7 +44,7 @@ const ActivityTypeAdd = () => {
         <Form data-testid="add-activity-type-form">
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Title>Add activity</Title>
+              <Title>Add activity type</Title>
             </Grid>
             <Grid item xs={12}>
               <Box
