@@ -5,7 +5,7 @@ import type { ApiResponse, CallEndpointOptions, ActivityType } from "./types";
 export type CreateActivityTypePayload = CreateNewActivityTypeRequest;
 
 /**
- * activityTypesApi object
+ * activityTypesApi - In this case we did not create a class. We used an Object Literal.
  */
 const activityTypesApi = {
   /**
