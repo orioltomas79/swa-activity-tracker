@@ -1,32 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-import ResponsiveDrawer from "./ResponsiveDrawer";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
-import ActivityTypes from "./features/ActivityTypes";
-import Activities from "./features/Activities";
-import DevPage from "./features/DevPage";
-import Snackbar from "./features/Snackbar";
+import Router from "./features/Router";
 
 const defaultTheme = createTheme();
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <ResponsiveDrawer />,
-    children: [
-      { path: "/", element: <Activities /> },
-      { path: "/activities", element: <Activities /> },
-      { path: "/activity-types", element: <ActivityTypes /> },
-      { path: "/devpage", element: <DevPage /> },
-    ],
-  },
-]);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -36,8 +18,7 @@ root.render(
     <Provider store={store}>
       <ThemeProvider theme={defaultTheme}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <Snackbar />
-          <RouterProvider router={router} />
+          <Router />
         </LocalizationProvider>
       </ThemeProvider>
     </Provider>
