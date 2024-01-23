@@ -8,8 +8,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
-import ActivityTypes from "./features/activityTypes";
-import Activities from "./features/activities";
+import ActivityTypes from "./features/ActivityTypes";
+import Activities from "./features/Activities";
 import DevPage from "./features/DevPage";
 import Snackbar from "./features/Snackbar";
 
