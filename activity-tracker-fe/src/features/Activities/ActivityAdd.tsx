@@ -2,7 +2,7 @@ import Title from "../../components/Title";
 import { DatePicker } from "@mui/x-date-pickers";
 import { Box, Button, Grid, MenuItem, Select } from "@mui/material";
 import { useAppSelector } from "../../app/hooks";
-import { selectActivityTypes } from "../ActivityTypes2/store/selectors";
+import { selectActivityTypes } from "../ActivityTypes/store/selectors";
 import * as Yup from "yup";
 import { Field, Form, Formik } from "formik";
 
