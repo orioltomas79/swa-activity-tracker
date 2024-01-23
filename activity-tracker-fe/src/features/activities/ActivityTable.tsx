@@ -9,6 +9,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  CircularProgress,
 } from "@mui/material";
 
 export default function ActivityTable() {
@@ -27,7 +28,7 @@ export default function ActivityTable() {
   let content;
 
   if (activitiesFetchStatus === "loading") {
-    content = <p>Loading...</p>;
+    content = <CircularProgress />;
   } else if (activitiesFetchStatus === "succeeded") {
     content = (
       <>

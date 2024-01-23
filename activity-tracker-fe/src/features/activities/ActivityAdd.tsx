@@ -5,7 +5,6 @@ import { useAppSelector } from "../../app/hooks";
 import { selectActivityTypes } from "../ActivityTypes/store/selectors";
 import * as Yup from "yup";
 import { Field, Form, Formik } from "formik";
-import { selectActivities } from "./store/selectors";
 import { useState } from "react";
 
 interface FormValues {
@@ -25,7 +24,6 @@ const validationSchema = Yup.object({
 
 const ActivityAdd = () => {
   const activityTypes = useAppSelector(selectActivityTypes).activityTypes;
-  const activitiesState = useAppSelector(selectActivities);
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
 
@@ -83,15 +81,7 @@ const ActivityAdd = () => {
                   </Field>
                 </Box>
                 <Box marginLeft={1}>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    disabled={
-                      activitiesState.fetchStatus === "idle" ||
-                      activitiesState.operationStatus === "loading"
-                    }
-                  >
+                  <Button type="submit" variant="contained" color="primary">
                     Add
                   </Button>
                 </Box>

@@ -1,8 +1,7 @@
-import { useEffect } from "react";
 import Title from "../../components/Title";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { fetchActivityTypes, deleteActivityType } from "./store/actions";
-import { selectActivityTypes } from "./store/selectors";
+import { deleteActivityType } from "./store/actions";
+
 import {
   Button,
   Table,
@@ -10,7 +9,9 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  CircularProgress,
 } from "@mui/material";
+import { selectActivityTypes } from "./store/selectors";
 
 export default function ActivityTypeTable() {
   const dispatch = useAppDispatch();
@@ -19,12 +20,6 @@ export default function ActivityTypeTable() {
   const activityTypesFetchStatus =
     useAppSelector(selectActivityTypes).fetchStatus;
   const activityTypesError = useAppSelector(selectActivityTypes).error;
-
-  useEffect(() => {
-    if (activityTypesFetchStatus === "idle") {
-      dispatch(fetchActivityTypes());
-    }
-  }, [activityTypesFetchStatus, dispatch]);
 
   const handleRemove = async (id: string) => {
     try {
@@ -37,7 +32,7 @@ export default function ActivityTypeTable() {
   let content;
 
   if (activityTypesFetchStatus === "loading") {
-    content = <p>Loading...</p>;
+    content = <CircularProgress />;
   } else if (activityTypesFetchStatus === "succeeded") {
     content = (
       <Table size="small">
