@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import Snackbar from "../Snackbar";
 import ResponsiveDrawer from "./ResponsiveDrawer";
-import { fetchActivityTypes } from "../ActivityTypes/store/actions";
-import { selectActivityTypes } from "../ActivityTypes/store/selectors";
+import { fetchActivityTypes } from "../ActivityTypes2/store/actions";
+import { selectActivityTypes } from "../ActivityTypes2/store/selectors";
 
 const PageContainer = () => {
   const dispatch = useAppDispatch();

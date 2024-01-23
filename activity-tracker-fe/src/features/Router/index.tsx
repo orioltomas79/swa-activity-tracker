@@ -1,6 +1,6 @@
-import Activities from "../Activities";
+import Activities from "../Activities2";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import ActivityTypes from "../ActivityTypes";
+import ActivityTypes from "../ActivityTypes2";
 import DevPage from "../DevPage";
 import { PageContainer } from "../Layout";
 
