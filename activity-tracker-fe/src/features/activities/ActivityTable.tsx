@@ -11,6 +11,8 @@ import {
   TableRow,
   CircularProgress,
 } from "@mui/material";
+import { format, parseISO } from "date-fns";
+import { DATE_FORMAT_DD_MMM_YYYY } from "src/utils/dateUtils";
 
 export default function ActivityTable() {
   const dispatch = useAppDispatch();
@@ -44,7 +46,9 @@ export default function ActivityTable() {
             {activities.map((row) => (
               <TableRow key={row.id}>
                 <TableCell>{row.activityTypeId}</TableCell>
-                <TableCell>{row.date}</TableCell>
+                <TableCell>
+                  {format(parseISO(row.date!), DATE_FORMAT_DD_MMM_YYYY)}
+                </TableCell>
                 <TableCell align="right">Remove</TableCell>
               </TableRow>
             ))}

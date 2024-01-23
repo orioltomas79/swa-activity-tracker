@@ -17,7 +17,7 @@
       "responses": [
         {
           "uuid": "240b694e-dc74-4815-b316-126603b78c04",
-          "body": "[\n  {\n    \"id\": \"{{faker 'string.uuid'}}\",\n    \"activityTypeId\": \"{{faker 'string.uuid'}}\",\n    \"date\": \"{{faker 'date.recent' 365}}\"\n  }\n]",
+          "body": "[\n  {\n    \"id\": \"{{faker 'string.uuid'}}\",\n    \"activityTypeId\": \"{{faker 'string.uuid'}}\",\n    \"date\": \"2017-07-21T17:32:28Z\"\n  }\n]",
           "latency": 0,
           "statusCode": 200,
           "label": "Returns all activities",

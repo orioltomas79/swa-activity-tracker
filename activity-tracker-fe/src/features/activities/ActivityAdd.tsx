@@ -5,7 +5,6 @@ import { useAppSelector } from "../../app/hooks";
 import { selectActivityTypes } from "../ActivityTypes/store/selectors";
 import * as Yup from "yup";
 import { Field, Form, Formik } from "formik";
-import { useState } from "react";
 
 interface FormValues {
   activityDate: string;
@@ -24,12 +23,6 @@ const validationSchema = Yup.object({
 
 const ActivityAdd = () => {
   const activityTypes = useAppSelector(selectActivityTypes).activityTypes;
-
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
-
-  const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
-  };
 
   const handleSubmit = async (values: FormValues) => {
     try {
@@ -63,7 +56,6 @@ const ActivityAdd = () => {
                     sx={{ minWidth: 150 }}
                     label="Select Date"
                     value={null}
-                    onChange={handleDateChange}
                   />
                 </Box>
                 <Box marginLeft={1}>
