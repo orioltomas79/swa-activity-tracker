@@ -1,10 +1,10 @@
 import Title from "../../components/Title";
-import { DatePicker } from "@mui/x-date-pickers";
-import { Box, Button, Grid, MenuItem, Select } from "@mui/material";
-import { useAppSelector } from "../../app/hooks";
+import { Box, Button, Grid, MenuItem, Select, TextField } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectActivityTypes } from "../ActivityTypes/store/selectors";
 import * as Yup from "yup";
-import { Field, Form, Formik } from "formik";
+import { useFormik } from "formik";
+import { postActivity } from "./store/actions";
 
 interface FormValues {
   activityDate: string;
@@ -24,65 +24,88 @@ const validationSchema = Yup.object({
 const ActivityAdd = () => {
   const activityTypes = useAppSelector(selectActivityTypes).activityTypes;
 
+  const dispatch = useAppDispatch();
+
   const handleSubmit = async (values: FormValues) => {
-    try {
-      console.info("Adding activity");
-    } catch (error) {
-      console.error("Error removing item:", error);
-    }
+    console.log(values);
+    await dispatch(
+      postActivity({
+        activityType: values.activityType,
+        date: values.activityDate,
+      })
+    ).unwrap();
   };
 
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: (values) => {
+      handleSubmit(values);
+    },
+  });
+
   return (
-    <Formik<FormValues>
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-    >
-      {() => (
-        <Form data-testid="add-activity-form">
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Title>Add activity </Title>
-            </Grid>
-            <Grid item xs={12}>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                }}
+    <form onSubmit={formik.handleSubmit}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Title>Add activity </Title>
+        </Grid>
+        <Grid item xs={12}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <Box>
+              <TextField
+                sx={{ minWidth: 150 }}
+                label="Date"
+                name="activityDate"
+                variant="outlined"
+                fullWidth
+                value={formik.values.activityDate}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.activityDate &&
+                  Boolean(formik.errors.activityDate)
+                }
+                helperText={
+                  formik.touched.activityDate && formik.errors.activityDate
+                }
+              />
+            </Box>
+            <Box marginLeft={1}>
+              <Select
+                sx={{ minWidth: 150 }}
+                label="Type"
+                labelId="activityType-label"
+                id="activityType"
+                name="activityType"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.activityType}
+                error={
+                  formik.touched.activityType &&
+                  Boolean(formik.errors.activityType)
+                }
               >
-                <Box>
-                  <DatePicker
-                    sx={{ minWidth: 150 }}
-                    label="Select Date"
-                    value={null}
-                  />
-                </Box>
-                <Box marginLeft={1}>
-                  <Field
-                    sx={{ minWidth: 150 }}
-                    name="activityType"
-                    as={Select}
-                    label="Select an option"
-                  >
-                    {activityTypes.map((option) => (
-                      <MenuItem key={option.id} value={option.id}>
-                        {option.name}
-                      </MenuItem>
-                    ))}
-                  </Field>
-                </Box>
-                <Box marginLeft={1}>
-                  <Button type="submit" variant="contained" color="primary">
-                    Add
-                  </Button>
-                </Box>
-              </Box>
-            </Grid>
-          </Grid>
-        </Form>
-      )}
-    </Formik>
+                {activityTypes.map((a) => (
+                  <MenuItem key={a.id} value={a.id}>
+                    {a.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Box>
+            <Box marginLeft={1}>
+              <Button type="submit" variant="contained" color="primary">
+                Add
+              </Button>
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </form>
   );
 };
 

@@ -51,7 +51,7 @@
       "responses": [
         {
           "uuid": "f4347edb-6f2d-4dd1-a895-11b4f34ccfc2",
-          "body": "{\n  \"id\": \"{{faker 'string.uuid'}}\",\n  \"activityTypeId\": \"{{faker 'string.uuid'}}\",\n  \"date\": \"{{faker 'date.recent' 365}}\"\n}",
+          "body": "{\n  \"id\": \"{{faker 'string.uuid'}}\",\n  \"activityTypeId\": \"{{faker 'string.uuid'}}\",\n  \"date\": \"2024-01-21T17:32:28Z\"\n}",
           "latency": 0,
           "statusCode": 201,
           "label": "Returns the activity that has been created",

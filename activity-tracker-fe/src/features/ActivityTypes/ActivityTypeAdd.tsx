@@ -1,4 +1,4 @@
-import { Field, FieldProps, Form, Formik } from "formik";
+import { useFormik } from "formik";
 import Title from "../../components/Title";
 import { Box, Button, Grid, TextField } from "@mui/material";
 import * as Yup from "yup";
@@ -23,75 +23,67 @@ const ActivityTypeAdd = () => {
   const activityTypesState = useAppSelector(selectActivityTypes);
 
   const handleSubmit = async (values: FormValues) => {
-    try {
-      await dispatch(
-        postActivityType({
-          name: values.activityTypeName,
-        })
-      ).unwrap();
-    } catch (error) {
-      console.error("Error removing item:", error);
-    }
+    await dispatch(
+      postActivityType({
+        name: values.activityTypeName,
+      })
+    ).unwrap();
   };
 
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: (values) => {
+      handleSubmit(values);
+    },
+  });
+
   return (
-    <Formik<FormValues>
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-    >
-      {() => (
-        <Form data-testid="add-activity-type-form">
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Title>Add activity type</Title>
-            </Grid>
-            <Grid item xs={12}>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                }}
+    <form onSubmit={formik.handleSubmit} data-testid="add-activity-type-form">
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Title>Add activity type</Title>
+        </Grid>
+        <Grid item xs={12}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <TextField
+              label="Activity type name"
+              name="activityTypeName"
+              variant="outlined"
+              fullWidth
+              value={formik.values.activityTypeName}
+              onChange={formik.handleChange}
+              error={
+                formik.touched.activityTypeName &&
+                Boolean(formik.errors.activityTypeName)
+              }
+              helperText={
+                formik.touched.activityTypeName &&
+                formik.errors.activityTypeName
+              }
+            />
+            <Box marginLeft={1}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                disabled={
+                  activityTypesState.fetchStatus === "idle" ||
+                  activityTypesState.operationStatus === "loading"
+                }
               >
-                <Field>
-                  {({ form }: FieldProps<string, FormValues>) => (
-                    <TextField
-                      label="Activity type name"
-                      name="activityTypeName"
-                      variant="outlined"
-                      fullWidth
-                      value={form.values.activityTypeName}
-                      onChange={form.handleChange}
-                      error={
-                        form.touched.activityTypeName &&
-                        Boolean(form.errors.activityTypeName)
-                      }
-                      helperText={
-                        form.touched.activityTypeName &&
-                        form.errors.activityTypeName
-                      }
-                    />
-                  )}
-                </Field>
-                <Box marginLeft={1}>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    disabled={
-                      activityTypesState.fetchStatus === "idle" ||
-                      activityTypesState.operationStatus === "loading"
-                    }
-                  >
-                    Add
-                  </Button>
-                </Box>
-              </Box>
-            </Grid>
-          </Grid>
-        </Form>
-      )}
-    </Formik>
+                Add
+              </Button>
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </form>
   );
 };
 
