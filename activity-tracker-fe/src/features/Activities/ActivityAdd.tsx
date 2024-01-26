@@ -81,8 +81,6 @@ const ActivityAdd = () => {
               <FormControl>
                 <Select
                   sx={{ minWidth: 150 }}
-                  label="Activity type"
-                  labelId="activityType-label"
                   id="activityType"
                   name="activityType"
                   onChange={formik.handleChange}

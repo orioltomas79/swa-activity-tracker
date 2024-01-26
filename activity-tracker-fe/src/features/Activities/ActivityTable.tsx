@@ -13,13 +13,20 @@ import {
 } from "@mui/material";
 import { format, parseISO } from "date-fns";
 import { DATE_FORMAT_DD_MMM_YYYY } from "src/utils/dateUtils";
+import { selectActivityTypes } from "../ActivityTypes/store/selectors";
 
 export default function ActivityTable() {
   const dispatch = useAppDispatch();
 
+  const activityTypes = useAppSelector(selectActivityTypes).activityTypes;
+
   const activities = useAppSelector(selectActivities).activities;
   const activitiesFetchStatus = useAppSelector(selectActivities).fetchStatus;
   const activitiesError = useAppSelector(selectActivities).error;
+
+  const getActivityTypeName = (id: string): string => {
+    return activityTypes.find((a) => a.id === id)?.name!;
+  };
 
   useEffect(() => {
     if (activitiesFetchStatus === "idle") {
@@ -37,17 +44,19 @@ export default function ActivityTable() {
         <Table size="small">
           <TableHead>
             <TableRow>
-              <TableCell>Activity type</TableCell>
               <TableCell>Date</TableCell>
+              <TableCell>Activity type</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {activities.map((row) => (
               <TableRow key={row.id}>
-                <TableCell>{row.activityTypeId}</TableCell>
                 <TableCell>
                   {format(parseISO(row.date!), DATE_FORMAT_DD_MMM_YYYY)}
+                </TableCell>
+                <TableCell>
+                  {getActivityTypeName(row.activityTypeId!)}
                 </TableCell>
                 <TableCell align="right">Remove</TableCell>
               </TableRow>

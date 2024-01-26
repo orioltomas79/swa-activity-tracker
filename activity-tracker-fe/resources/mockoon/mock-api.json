@@ -17,7 +17,7 @@
       "responses": [
         {
           "uuid": "240b694e-dc74-4815-b316-126603b78c04",
-          "body": "[\n  {\n    \"id\": \"{{faker 'string.uuid'}}\",\n    \"activityTypeId\": \"{{faker 'string.uuid'}}\",\n    \"date\": \"2017-07-21T17:32:28Z\"\n  }\n]",
+          "body": "[\n  {\n    \"id\": \"{{faker 'string.uuid'}}\",\n    \"activityTypeId\": \"e8570fa0-b28a-409e-8c1f-f7df3ed1abe3\",\n    \"date\": \"2017-07-21T17:32:28Z\"\n  },\n  {\n    \"id\": \"{{faker 'string.uuid'}}\",\n    \"activityTypeId\": \"e8570fa0-b28a-409e-8c1f-f7df3ed1abe3\",\n    \"date\": \"2017-07-25T17:32:28Z\"\n  },\n  {\n    \"id\": \"{{faker 'string.uuid'}}\",\n    \"activityTypeId\": \"8a6626f9-bb83-4c47-a3bf-1ef2d6848c49\",\n    \"date\": \"2017-07-26T17:32:28Z\"\n  }\n]",
           "latency": 0,
           "statusCode": 200,
           "label": "Returns all activities",
@@ -143,7 +143,7 @@
       "responses": [
         {
           "uuid": "8d0efb49-59dd-4013-a155-c96aa4510105",
-          "body": "[\n  {\n    \"id\": \"{{faker 'string.uuid'}}\",\n    \"name\": \"test\"\n  },\n    {\n    \"id\": \"{{faker 'string.uuid'}}\",\n    \"name\": \"test2\"\n  }\n]",
+          "body": "[\n  {\n    \"id\": \"e8570fa0-b28a-409e-8c1f-f7df3ed1abe3\",\n    \"name\": \"Gym\"\n  },\n    {\n    \"id\": \"8a6626f9-bb83-4c47-a3bf-1ef2d6848c49\",\n    \"name\": \"Study\"\n  }\n]",
           "latency": 0,
           "statusCode": 200,
           "label": "Returns all activity types",
