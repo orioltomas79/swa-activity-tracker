@@ -12,11 +12,9 @@ import { selectActivityTypes } from "../ActivityTypes/store/selectors";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { postActivity } from "./store/actions";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DatePicker } from "@mui/x-date-pickers";
 import { format } from "date-fns";
 import { DATE_FORMAT_DD_MMM_YYYY } from "src/utils/dateUtils";
-import { enGB } from "date-fns/locale";
 
 interface FormValues {
   activityDate: Date;
@@ -70,18 +68,13 @@ const ActivityAdd = () => {
           >
             <Box>
               <FormControl>
-                <LocalizationProvider
-                  dateAdapter={AdapterDateFns}
-                  adapterLocale={enGB}
-                >
-                  <DatePicker
-                    sx={{ minWidth: 150 }}
-                    value={formik.values.activityDate}
-                    onChange={(newValue) =>
-                      formik.setFieldValue("activityDate", newValue, true)
-                    }
-                  />
-                </LocalizationProvider>
+                <DatePicker
+                  sx={{ minWidth: 150 }}
+                  value={formik.values.activityDate}
+                  onChange={(newValue) =>
+                    formik.setFieldValue("activityDate", newValue, true)
+                  }
+                />
               </FormControl>
             </Box>
             <Box marginLeft={1}>

@@ -3,7 +3,8 @@ import ReactDOM from "react-dom/client";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { enGB } from "date-fns/locale";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
 import Router from "./features/Router";
@@ -17,7 +18,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <ThemeProvider theme={defaultTheme}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={enGB}>
           <Router />
         </LocalizationProvider>
       </ThemeProvider>
