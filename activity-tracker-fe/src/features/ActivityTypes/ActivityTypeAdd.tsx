@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import Title from "../../components/Title";
-import { Box, Button, Grid, TextField } from "@mui/material";
+import { Box, Button, FormControl, Grid, TextField } from "@mui/material";
 import * as Yup from "yup";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { postActivityType } from "./store/actions";
@@ -51,34 +51,38 @@ const ActivityTypeAdd = () => {
               alignItems: "center",
             }}
           >
-            <TextField
-              label="Activity type name"
-              name="activityTypeName"
-              variant="outlined"
-              fullWidth
-              value={formik.values.activityTypeName}
-              onChange={formik.handleChange}
-              error={
-                formik.touched.activityTypeName &&
-                Boolean(formik.errors.activityTypeName)
-              }
-              helperText={
-                formik.touched.activityTypeName &&
-                formik.errors.activityTypeName
-              }
-            />
-            <Box marginLeft={1}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                disabled={
-                  activityTypesState.fetchStatus === "idle" ||
-                  activityTypesState.operationStatus === "loading"
+            <FormControl>
+              <TextField
+                label="Activity type name"
+                name="activityTypeName"
+                variant="outlined"
+                fullWidth
+                value={formik.values.activityTypeName}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.activityTypeName &&
+                  Boolean(formik.errors.activityTypeName)
                 }
-              >
-                Add
-              </Button>
+                helperText={
+                  formik.touched.activityTypeName &&
+                  formik.errors.activityTypeName
+                }
+              />
+            </FormControl>
+            <Box marginLeft={1}>
+              <FormControl>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  disabled={
+                    activityTypesState.fetchStatus === "idle" ||
+                    activityTypesState.operationStatus === "loading"
+                  }
+                >
+                  Add
+                </Button>
+              </FormControl>
             </Box>
           </Box>
         </Grid>

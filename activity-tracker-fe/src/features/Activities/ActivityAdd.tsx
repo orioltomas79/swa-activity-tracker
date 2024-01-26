@@ -1,18 +1,30 @@
 import Title from "../../components/Title";
-import { Box, Button, Grid, MenuItem, Select, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  Grid,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectActivityTypes } from "../ActivityTypes/store/selectors";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { postActivity } from "./store/actions";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { format } from "date-fns";
+import { DATE_FORMAT_DD_MMM_YYYY } from "src/utils/dateUtils";
+import { enGB } from "date-fns/locale";
 
 interface FormValues {
-  activityDate: string;
+  activityDate: Date;
   activityType: string;
 }
 
 const initialValues: FormValues = {
-  activityDate: "",
+  activityDate: new Date(),
   activityType: "",
 };
 
@@ -27,11 +39,10 @@ const ActivityAdd = () => {
   const dispatch = useAppDispatch();
 
   const handleSubmit = async (values: FormValues) => {
-    console.log(values);
     await dispatch(
       postActivity({
         activityType: values.activityType,
-        date: values.activityDate,
+        date: format(values.activityDate, DATE_FORMAT_DD_MMM_YYYY),
       })
     ).unwrap();
   };
@@ -58,49 +69,51 @@ const ActivityAdd = () => {
             }}
           >
             <Box>
-              <TextField
-                sx={{ minWidth: 150 }}
-                label="Date"
-                name="activityDate"
-                variant="outlined"
-                fullWidth
-                value={formik.values.activityDate}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.activityDate &&
-                  Boolean(formik.errors.activityDate)
-                }
-                helperText={
-                  formik.touched.activityDate && formik.errors.activityDate
-                }
-              />
+              <FormControl>
+                <LocalizationProvider
+                  dateAdapter={AdapterDateFns}
+                  adapterLocale={enGB}
+                >
+                  <DatePicker
+                    sx={{ minWidth: 150 }}
+                    value={formik.values.activityDate}
+                    onChange={(newValue) =>
+                      formik.setFieldValue("activityDate", newValue, true)
+                    }
+                  />
+                </LocalizationProvider>
+              </FormControl>
             </Box>
             <Box marginLeft={1}>
-              <Select
-                sx={{ minWidth: 150 }}
-                label="Type"
-                labelId="activityType-label"
-                id="activityType"
-                name="activityType"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.activityType}
-                error={
-                  formik.touched.activityType &&
-                  Boolean(formik.errors.activityType)
-                }
-              >
-                {activityTypes.map((a) => (
-                  <MenuItem key={a.id} value={a.id}>
-                    {a.name}
-                  </MenuItem>
-                ))}
-              </Select>
+              <FormControl>
+                <Select
+                  sx={{ minWidth: 150 }}
+                  label="Activity type"
+                  labelId="activityType-label"
+                  id="activityType"
+                  name="activityType"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.activityType}
+                  error={
+                    formik.touched.activityType &&
+                    Boolean(formik.errors.activityType)
+                  }
+                >
+                  {activityTypes.map((a) => (
+                    <MenuItem key={a.id} value={a.id}>
+                      {a.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Box>
             <Box marginLeft={1}>
-              <Button type="submit" variant="contained" color="primary">
-                Add
-              </Button>
+              <FormControl>
+                <Button type="submit" variant="contained" color="primary">
+                  Add
+                </Button>
+              </FormControl>
             </Box>
           </Box>
         </Grid>
