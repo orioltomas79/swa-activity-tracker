@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Title from "../../components/Title";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { fetchActivities } from "./store/actions";
+import { deleteActivity, fetchActivities } from "./store/actions";
 import { selectActivities } from "./store/selectors";
 import {
   Table,
@@ -10,6 +10,7 @@ import {
   TableHead,
   TableRow,
   CircularProgress,
+  Button,
 } from "@mui/material";
 import { format, parseISO } from "date-fns";
 import { DATE_FORMAT_EEEEE_DD_MMM_YYYY } from "src/utils/dateUtils";
@@ -34,6 +35,16 @@ export default function ActivityTable() {
     }
   }, [activitiesFetchStatus, dispatch]);
 
+  const handleRemove = async (year: number, month: number, id: string) => {
+    try {
+      await dispatch(
+        deleteActivity({ year: year, month: month, id: id })
+      ).unwrap();
+    } catch (error) {
+      console.error("Error removing item:", error);
+    }
+  };
+
   let content;
 
   if (activitiesFetchStatus === "loading") {
@@ -50,17 +61,35 @@ export default function ActivityTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {activities.map((row) => (
-              <TableRow key={row.id}>
-                <TableCell>
-                  {format(parseISO(row.date!), DATE_FORMAT_EEEEE_DD_MMM_YYYY)}
-                </TableCell>
-                <TableCell>
-                  {getActivityTypeName(row.activityTypeId!)}
-                </TableCell>
-                <TableCell align="right">Remove</TableCell>
-              </TableRow>
-            ))}
+            {activities
+              .slice()
+              .sort(
+                (a, b) =>
+                  parseISO(b.date!).getTime() - parseISO(a.date!).getTime()
+              )
+              .map((row) => (
+                <TableRow key={row.id}>
+                  <TableCell>
+                    {format(parseISO(row.date!), DATE_FORMAT_EEEEE_DD_MMM_YYYY)}
+                  </TableCell>
+                  <TableCell>
+                    {getActivityTypeName(row.activityTypeId!)}
+                  </TableCell>
+                  <TableCell align="right">
+                    <Button
+                      onClick={() =>
+                        handleRemove(
+                          parseISO(row.date!).getFullYear(),
+                          parseISO(row.date!).getMonth(),
+                          row.id!
+                        )
+                      }
+                    >
+                      Remove
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </>
