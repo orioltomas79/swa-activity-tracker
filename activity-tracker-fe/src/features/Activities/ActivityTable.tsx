@@ -80,7 +80,7 @@ export default function ActivityTable() {
                       onClick={() =>
                         handleRemove(
                           parseISO(row.date!).getFullYear(),
-                          parseISO(row.date!).getMonth(),
+                          parseISO(row.date!).getMonth() + 1,
                           row.id!
                         )
                       }
