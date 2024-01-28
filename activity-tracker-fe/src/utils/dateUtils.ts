@@ -4,6 +4,7 @@ import {
   parseISO,
 } from "date-fns";
 export const DATE_FORMAT_DD_MMM_YYYY = "dd MMM yyyy";
+export const DATE_FORMAT_EEEEE_DD_MMM_YYYY = "EEEEEE dd MMM yyyy";
 export const DATE_FORMAT_YYYY_TO_SS = `yyyy-MM-dd HH.mm.ss`;
 
 export const sortAsc = (dateLeft: string | null, dateRight: string | null) => {

@@ -43,14 +43,17 @@ export default function ActivityTypeTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {activityTypes.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.name}</TableCell>
-              <TableCell align="right">
-                <Button onClick={() => handleRemove(row.id!)}>Remove</Button>
-              </TableCell>
-            </TableRow>
-          ))}
+          {activityTypes
+            .slice()
+            .sort((a, b) => a.name!.localeCompare(b.name!))
+            .map((row) => (
+              <TableRow key={row.id}>
+                <TableCell>{row.name}</TableCell>
+                <TableCell align="right">
+                  <Button onClick={() => handleRemove(row.id!)}>Remove</Button>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     );

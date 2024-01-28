@@ -91,11 +91,14 @@ const ActivityAdd = () => {
                     Boolean(formik.errors.activityType)
                   }
                 >
-                  {activityTypes.map((a) => (
-                    <MenuItem key={a.id} value={a.id}>
-                      {a.name}
-                    </MenuItem>
-                  ))}
+                  {activityTypes
+                    .slice()
+                    .sort((a, b) => a.name!.localeCompare(b.name!))
+                    .map((a) => (
+                      <MenuItem key={a.id} value={a.id}>
+                        {a.name}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
             </Box>

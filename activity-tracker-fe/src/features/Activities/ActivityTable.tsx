@@ -12,7 +12,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { format, parseISO } from "date-fns";
-import { DATE_FORMAT_DD_MMM_YYYY } from "src/utils/dateUtils";
+import { DATE_FORMAT_EEEEE_DD_MMM_YYYY } from "src/utils/dateUtils";
 import { selectActivityTypes } from "../ActivityTypes/store/selectors";
 
 export default function ActivityTable() {
@@ -53,7 +53,7 @@ export default function ActivityTable() {
             {activities.map((row) => (
               <TableRow key={row.id}>
                 <TableCell>
-                  {format(parseISO(row.date!), DATE_FORMAT_DD_MMM_YYYY)}
+                  {format(parseISO(row.date!), DATE_FORMAT_EEEEE_DD_MMM_YYYY)}
                 </TableCell>
                 <TableCell>
                   {getActivityTypeName(row.activityTypeId!)}
