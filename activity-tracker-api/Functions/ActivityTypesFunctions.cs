@@ -58,7 +58,6 @@ namespace ActivityTracker.Api.Functions
             }
         }
 
-
         [FunctionName(nameof(AddActivityType))]
         [OpenApiOperation(tags: new[] { ActivityTypesTag }, operationId: nameof(AddActivityType), Summary = "Adds a new activity type")]
         [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(CreateNewActivityTypeRequest), Description = "The activity type")]
@@ -81,11 +80,11 @@ namespace ActivityTracker.Api.Functions
                     };
                     return new BadRequestObjectResult(validationProblemDetails);
                 }
-                
+
                 _logger.LogInformation("{AddActivityType} started.", nameof(AddActivityType));
 
                 var claimsPrincipal = StaticWebAppsAuth.GetClaimsPrincipal(req);
-                
+
                 var activityType = new ActivityType()
                 {
                     Id = Guid.NewGuid(),

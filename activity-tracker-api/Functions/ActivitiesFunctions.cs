@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using ActivityTracker.Api.Infrastructure;
@@ -34,13 +35,32 @@ namespace ActivityTracker.Api.Functions
         public async Task<ActionResult<List<Activity>>> GetActivities(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = ApiEndpoints.Activities)] HttpRequest req)
         {
-            _logger.LogInformation("GetActivityTypes started.");
+            _logger.LogInformation("GetActivity started.");
 
             var claimsPrincipal = StaticWebAppsAuth.GetClaimsPrincipal(req);
 
             var activities = await _activitiesRepository.GetActivitiesAsync(claimsPrincipal.GetUserId());
 
             return new OkObjectResult(activities);
+        }
+
+        [FunctionName(nameof(GetActivitiesStats))]
+        [OpenApiOperation(tags: new[] { ActivitiesTag }, operationId: nameof(GetActivitiesStats), Summary = "Gets activities stats")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<ActivityType>), Description = "Returns activities stats")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.InternalServerError, contentType: "application/json", bodyType: typeof(ProblemDetails), Description = "Internal server error")]
+        public async Task<ActionResult<List<ActivityTypeCountDto>>> GetActivitiesStats(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = ApiEndpoints.ActivitiesStats)] HttpRequest req)
+        {
+            var claimsPrincipal = StaticWebAppsAuth.GetClaimsPrincipal(req);
+
+            var activities = await _activitiesRepository.GetActivitiesAsync(claimsPrincipal.GetUserId());
+
+            var activityCounts = activities
+                .GroupBy(a => a.ActivityTypeId)
+                .Select(g => new ActivityTypeCountDto { ActivityTypeId = g.Key, Count = g.Count() })
+                .ToList();
+
+            return new OkObjectResult(activityCounts);
         }
 
         [FunctionName(nameof(AddActivity))]
