@@ -1,7 +1,10 @@
 using System;
 
-public class ActivityTypeCountDto
+public class GetActivitiesStatsDto
 {
     public Guid ActivityTypeId { get; set; }
+
+    public string ActivityTypeName {get; set; }
+    
     public int Count { get; set; }
 }

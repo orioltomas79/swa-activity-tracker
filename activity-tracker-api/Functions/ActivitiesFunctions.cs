@@ -22,11 +22,16 @@ namespace ActivityTracker.Api.Functions
 
         private readonly ILogger<ActivitiesFunctions> _logger;
         private readonly IActivitiesRepository _activitiesRepository;
+        private readonly IActivityTypesRepository _activityTypesRepository;
 
-        public ActivitiesFunctions(ILogger<ActivitiesFunctions> log, IActivitiesRepository activitiesRepository)
+        public ActivitiesFunctions(
+            ILogger<ActivitiesFunctions> log,
+            IActivitiesRepository activitiesRepository,
+            IActivityTypesRepository activityTypesRepository)
         {
             _logger = log;
             _activitiesRepository = activitiesRepository;
+            _activityTypesRepository = activityTypesRepository;
         }
 
         [FunctionName(nameof(GetActivities))]
@@ -48,19 +53,27 @@ namespace ActivityTracker.Api.Functions
         [OpenApiOperation(tags: new[] { ActivitiesTag }, operationId: nameof(GetActivitiesStats), Summary = "Gets activities stats")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<ActivityType>), Description = "Returns activities stats")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.InternalServerError, contentType: "application/json", bodyType: typeof(ProblemDetails), Description = "Internal server error")]
-        public async Task<ActionResult<List<ActivityTypeCountDto>>> GetActivitiesStats(
+        public async Task<ActionResult<List<GetActivitiesStatsDto>>> GetActivitiesStats(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = ApiEndpoints.ActivitiesStats)] HttpRequest req)
         {
             var claimsPrincipal = StaticWebAppsAuth.GetClaimsPrincipal(req);
 
             var activities = await _activitiesRepository.GetActivitiesAsync(claimsPrincipal.GetUserId());
 
-            var activityCounts = activities
+            var listGetActivitiesStatsDto = activities
                 .GroupBy(a => a.ActivityTypeId)
-                .Select(g => new ActivityTypeCountDto { ActivityTypeId = g.Key, Count = g.Count() })
+                .Select(g => new GetActivitiesStatsDto { ActivityTypeId = g.Key, Count = g.Count() })
                 .ToList();
 
-            return new OkObjectResult(activityCounts);
+            var activityTypes = await _activityTypesRepository.GetAllActivityTypesAsync(claimsPrincipal.GetUserId());
+
+            foreach (var getActivitiesStatsDto in listGetActivitiesStatsDto)
+            {
+                getActivitiesStatsDto.ActivityTypeName = activityTypes.First(
+                    a => a.Id == getActivitiesStatsDto.ActivityTypeId).Name;
+            }
+
+            return new OkObjectResult(listGetActivitiesStatsDto);
         }
 
         [FunctionName(nameof(AddActivity))]
