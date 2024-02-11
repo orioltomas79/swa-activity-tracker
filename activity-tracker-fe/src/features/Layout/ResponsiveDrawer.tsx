@@ -56,6 +56,14 @@ export default function ResponsiveDrawer() {
           </ListItemIcon>
           <ListItemText primary="Activity Types" />
         </ListItemButton>
+        <ListItemButton
+          onClick={() => handleListItemButtonClick("activities-stats")}
+        >
+          <ListItemIcon>
+            <ListOutlinedIcon />
+          </ListItemIcon>
+          <ListItemText primary="Activities Stats" />
+        </ListItemButton>
       </List>
       <Divider />
       <List>

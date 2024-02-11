@@ -129,6 +129,77 @@ export class ActivitiesClient {
   }
 
   /**
+   * Gets activities stats
+   * @return Returns activities stats
+   */
+  getActivitiesStats(): Promise<GetActivitiesStatsDto[]> {
+    let url_ = this.baseUrl + "/Activities/Stats";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_: RequestInit = {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    };
+
+    return this.http.fetch(url_, options_).then((_response: Response) => {
+      return this.processGetActivitiesStats(_response);
+    });
+  }
+
+  protected processGetActivitiesStats(
+    response: Response
+  ): Promise<GetActivitiesStatsDto[]> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && response.headers.forEach) {
+      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
+    }
+    if (status === 200) {
+      return response.text().then((_responseText) => {
+        let result200: any = null;
+        result200 =
+          _responseText === ""
+            ? null
+            : (JSON.parse(
+                _responseText,
+                this.jsonParseReviver
+              ) as GetActivitiesStatsDto[]);
+        return result200;
+      });
+    } else if (status === 500) {
+      return response.text().then((_responseText) => {
+        let result500: any = null;
+        result500 =
+          _responseText === ""
+            ? null
+            : (JSON.parse(
+                _responseText,
+                this.jsonParseReviver
+              ) as ProblemDetails);
+        return throwException(
+          "Internal server error",
+          status,
+          _responseText,
+          _headers,
+          result500
+        );
+      });
+    } else if (status !== 200 && status !== 204) {
+      return response.text().then((_responseText) => {
+        return throwException(
+          "An unexpected server error occurred.",
+          status,
+          _responseText,
+          _headers
+        );
+      });
+    }
+    return Promise.resolve<GetActivitiesStatsDto[]>(null as any);
+  }
+
+  /**
    * Deletes an activity
    * @param year Activity year
    * @param month Activity month
@@ -540,6 +611,14 @@ export interface CreateNewActivityRequest {
 
 export interface CreateNewActivityTypeRequest {
   name?: string;
+
+  [key: string]: any;
+}
+
+export interface GetActivitiesStatsDto {
+  activityTypeId?: string;
+  activityTypeName?: string;
+  count?: number;
 
   [key: string]: any;
 }

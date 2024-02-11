@@ -51,7 +51,7 @@ namespace ActivityTracker.Api.Functions
 
         [FunctionName(nameof(GetActivitiesStats))]
         [OpenApiOperation(tags: new[] { ActivitiesTag }, operationId: nameof(GetActivitiesStats), Summary = "Gets activities stats")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<ActivityType>), Description = "Returns activities stats")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<GetActivitiesStatsDto>), Description = "Returns activities stats")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.InternalServerError, contentType: "application/json", bodyType: typeof(ProblemDetails), Description = "Internal server error")]
         public async Task<ActionResult<List<GetActivitiesStatsDto>>> GetActivitiesStats(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = ApiEndpoints.ActivitiesStats)] HttpRequest req)

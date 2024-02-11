@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ActivityTypes from "../ActivityTypes";
 import DevPage from "../DevPage";
 import { PageContainer } from "../Layout";
+import ActivitiesStats from "../ActivitiesStats";
 
 const router = createBrowserRouter([
   {
@@ -12,6 +13,7 @@ const router = createBrowserRouter([
       { path: "/", element: <Activities /> },
       { path: "/activities", element: <Activities /> },
       { path: "/activity-types", element: <ActivityTypes /> },
+      { path: "/activities-stats", element: <ActivitiesStats /> },
       { path: "/devpage", element: <DevPage /> },
     ],
   },

@@ -1,5 +1,8 @@
 import apiClient from "./apiClient";
-import type { CreateNewActivityRequest } from "./apiClient.g.nswag";
+import type {
+  CreateNewActivityRequest,
+  GetActivitiesStatsDto,
+} from "./apiClient.g.nswag";
 import type { ApiResponse, CallEndpointOptions, Activity } from "./types";
 
 export type CreateActivityPayload = CreateNewActivityRequest;
@@ -17,6 +20,18 @@ const activitiesApi = {
     options?: CallEndpointOptions
   ): Promise<ApiResponse<Activity[]>> =>
     apiClient.callApiEndpoint(apiClient.activities.getActivities(), options),
+  /**
+   * Calls the apiClient to get the activities stats
+   * @param options (showSnackbarOnFail, skipSnackbarOnStatusCode, errorMessage)
+   * @returns a Promise<ApiResponse<GetActivitiesStatsDto[]>>
+   */
+  getActivitiesStats: (
+    options?: CallEndpointOptions
+  ): Promise<ApiResponse<GetActivitiesStatsDto[]>> =>
+    apiClient.callApiEndpoint(
+      apiClient.activities.getActivitiesStats(),
+      options
+    ),
   /**
    * Calls the apiClient to add an activity
    * @param payload CreateActivityPayload

@@ -293,6 +293,64 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "fae921a7-10f2-40a0-b903-e157ab9d76ab",
+      "type": "http",
+      "documentation": "Gets activities stats",
+      "method": "get",
+      "endpoint": "Activities/Stats",
+      "responses": [
+        {
+          "uuid": "df73342e-770f-4508-9f10-df7772782dc7",
+          "body": "[\n  {\n    \"activityTypeId\": \"{{faker 'string.uuid'}}\",\n    \"activityTypeName\": \"AT1\",\n    \"count\": {{faker 'number.int' max=99999}}\n  },\n  {\n    \"activityTypeId\": \"{{faker 'string.uuid'}}\",\n    \"activityTypeName\": \"AT2\",\n    \"count\": {{faker 'number.int' max=99999}}\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Returns activities stats",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "f3a33c4b-1c77-4a19-ae3a-369e5fc48d22",
+          "body": "{\n  \"type\": \"\",\n  \"title\": \"\",\n  \"status\": {{faker 'number.int' max=99999}},\n  \"detail\": \"\",\n  \"instance\": \"\",\n  \"extensions\": {}\n}",
+          "latency": 0,
+          "statusCode": 500,
+          "label": "Internal server error",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -323,6 +381,10 @@
     {
       "type": "route",
       "uuid": "7771f7fb-f499-4a4c-8df1-4a508d90deea"
+    },
+    {
+      "type": "route",
+      "uuid": "fae921a7-10f2-40a0-b903-e157ab9d76ab"
     }
   ],
   "proxyMode": false,
