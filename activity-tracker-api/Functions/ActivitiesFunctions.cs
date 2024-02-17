@@ -44,7 +44,7 @@ namespace ActivityTracker.Api.Functions
 
             var claimsPrincipal = StaticWebAppsAuth.GetClaimsPrincipal(req);
 
-            var activities = await _activitiesRepository.GetActivitiesAsync(claimsPrincipal.GetUserId());
+            var activities = await _activitiesRepository.GetLastActivitiesAsync(claimsPrincipal.GetUserId());
 
             return new OkObjectResult(activities);
         }
