@@ -38,14 +38,18 @@ export default function ActivityStatsTable() {
           <TableHead>
             <TableRow>
               <TableCell>Activity type</TableCell>
-              <TableCell>Count</TableCell>
+              <TableCell>Last week</TableCell>
+              <TableCell>Last 2 weeks</TableCell>
+              <TableCell>Last 4 weeks</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {activitiesStats.map((row) => (
               <TableRow key={row.activityTypeId}>
                 <TableCell>{row.activityTypeName}</TableCell>
-                <TableCell>{row.count}</TableCell>
+                <TableCell>{row.countLast7Days}</TableCell>
+                <TableCell>{row.countLast14Days}</TableCell>
+                <TableCell>{row.countLast28Days}</TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -618,7 +618,9 @@ export interface CreateNewActivityTypeRequest {
 export interface GetActivitiesStatsDto {
   activityTypeId?: string;
   activityTypeName?: string;
-  count?: number;
+  countLast7Days?: number;
+  countLast14Days?: number;
+  countLast28Days?: number;
 
   [key: string]: any;
 }
