@@ -8,7 +8,7 @@ public class GetActivitiesStatsDto
 
     public int CountLast7Days { get; set; }
 
-    public int CountLast14Days { get; set; }
+    public int AvgLast14Days { get; set; }
 
-    public int CountLast28Days { get; set; }
+    public int AvgLast28Days { get; set; }
 }

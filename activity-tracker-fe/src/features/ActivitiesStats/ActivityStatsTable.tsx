@@ -38,9 +38,9 @@ export default function ActivityStatsTable() {
           <TableHead>
             <TableRow>
               <TableCell>Activity type</TableCell>
-              <TableCell>Last week</TableCell>
-              <TableCell>Last 2 weeks</TableCell>
-              <TableCell>Last 4 weeks</TableCell>
+              <TableCell>7 days</TableCell>
+              <TableCell>Avg 14 days</TableCell>
+              <TableCell>Avg 28 days</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -48,8 +48,8 @@ export default function ActivityStatsTable() {
               <TableRow key={row.activityTypeId}>
                 <TableCell>{row.activityTypeName}</TableCell>
                 <TableCell>{row.countLast7Days}</TableCell>
-                <TableCell>{row.countLast14Days}</TableCell>
-                <TableCell>{row.countLast28Days}</TableCell>
+                <TableCell>{row.avgLast14Days}</TableCell>
+                <TableCell>{row.avgLast28Days}</TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -619,8 +619,8 @@ export interface GetActivitiesStatsDto {
   activityTypeId?: string;
   activityTypeName?: string;
   countLast7Days?: number;
-  countLast14Days?: number;
-  countLast28Days?: number;
+  avgLast14Days?: number;
+  avgLast28Days?: number;
 
   [key: string]: any;
 }
