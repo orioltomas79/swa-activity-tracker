@@ -33,7 +33,7 @@
     "eslint": "^8.50.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "nswag": "^13.18.2",
+    "nswag": "^14.0.3",
     "prettier": "^2.8.7",
     "react-scripts": "5.0.1",
     "typescript": "^4.9.5"
@@ -50,7 +50,7 @@
     "format": "prettier --write src/**/*.{ts,tsx,scss,css,json}",
     "lint:js": "eslint --ext .js,.jsx,.ts,.tsx src --color",
     "api:generate": "npm run api:generate:nswag && npm run api:postgenerate",
-    "api:generate:nswag": "nswag openapi2tsclient /runtime:Net60 /typeScriptVersion:4.9 /input:http://localhost:7071/api/swagger.json /output:src/api/apiClient.g.nswag.ts /template:fetch /operationGenerationMode:MultipleClientsFromFirstTagAndOperationName /typeStyle:Interface /nullValue:null /dateTimeType:string",
+    "api:generate:nswag": "nswag openapi2tsclient /typeScriptVersion:4.9 /input:http://localhost:7071/api/swagger.json /output:src/api/apiClient.g.nswag.ts /template:fetch /operationGenerationMode:MultipleClientsFromFirstTagAndOperationName /typeStyle:Interface /nullValue:null /dateTimeType:string",
     "api:postgenerate": "prettier --write src/api/apiClient.g.nswag.ts"
   },
   "eslintConfig": {

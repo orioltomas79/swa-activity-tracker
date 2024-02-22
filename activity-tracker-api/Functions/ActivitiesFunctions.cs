@@ -63,21 +63,21 @@ namespace ActivityTracker.Api.Functions
             var statsLast7Days = activities
                 .Where(a => a.Date >= DateTime.Now.AddDays(-7))
                 .GroupBy(a => a.ActivityTypeId)
-                .Select(g => new { ActivityTypeId = g.Key, Count = g.Count() })
+                .Select(g => new { ActivityTypeId = g.Key, Count = (decimal)g.Count() })
                 .ToList();
 
             // Count activities in the last 14 days
             var statsLast14Days = activities
                 .Where(a => a.Date >= DateTime.Now.AddDays(-14))
                 .GroupBy(a => a.ActivityTypeId)
-                .Select(g => new { ActivityTypeId = g.Key, Count = g.Count() / 2 })
+                .Select(g => new { ActivityTypeId = g.Key, Count = (decimal)g.Count() / 2 })
                 .ToList();
 
             // Count activities in the last 28 days
             var statsLast28Days = activities
                 .Where(a => a.Date >= DateTime.Now.AddDays(-28))
                 .GroupBy(a => a.ActivityTypeId)
-                .Select(g => new { ActivityTypeId = g.Key, Count = g.Count() / 4 })
+                .Select(g => new { ActivityTypeId = g.Key, Count = (decimal)g.Count() / 4 })
                 .ToList();
 
             // Generate the final list with the counts of the last 7, 14 and 28 days.
@@ -85,14 +85,14 @@ namespace ActivityTracker.Api.Functions
             foreach (var stat in statsLast28Days){
                 result.Add(new GetActivitiesStatsDto(){
                     ActivityTypeId = stat.ActivityTypeId,
-                    AvgLast28Days = stat.Count
+                    AvgLast28Days = Math.Round(stat.Count, 1)
                 });
             }
 
             foreach (var stat in statsLast14Days)
             {
                 var activityStat = result.FirstOrDefault(x => x.ActivityTypeId == stat.ActivityTypeId);
-                activityStat.AvgLast14Days = stat.Count;
+                activityStat.AvgLast14Days = Math.Round(stat.Count, 1);
             }
 
             foreach (var stat in statsLast7Days)

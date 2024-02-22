@@ -6,9 +6,9 @@ public class GetActivitiesStatsDto
 
     public string ActivityTypeName { get; set; }
 
-    public int CountLast7Days { get; set; }
+    public decimal CountLast7Days { get; set; }
 
-    public int AvgLast14Days { get; set; }
+    public decimal AvgLast14Days { get; set; }
 
-    public int AvgLast28Days { get; set; }
+    public decimal AvgLast28Days { get; set; }
 }
