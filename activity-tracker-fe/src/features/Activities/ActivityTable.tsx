@@ -12,9 +12,9 @@ import {
   CircularProgress,
   Button,
 } from "@mui/material";
-import { format, parseISO } from "date-fns";
-import { DATE_FORMAT_EEEEE_DD_MMM_YYYY } from "src/utils/dateUtils";
+import { parseISO } from "date-fns";
 import { selectActivityTypes } from "../ActivityTypes/store/selectors";
+import { Activity } from "src/api/types";
 
 export default function ActivityTable() {
   const dispatch = useAppDispatch();
@@ -45,6 +45,35 @@ export default function ActivityTable() {
     }
   };
 
+  const groupActivitiesByDate = () => {
+    const groupedActivities: { [date: string]: Activity[] } = {};
+
+    activities.forEach((activity) => {
+      const date = new Date(activity.date!).toDateString();
+      if (!groupedActivities[date]) {
+        groupedActivities[date] = [];
+      }
+      groupedActivities[date].push(activity);
+    });
+
+    return groupedActivities;
+  };
+
+  const getLastDays = () => {
+    const dates: string[] = [];
+    for (let i = 0; i < 14; i++) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      dates.push(date.toDateString());
+    }
+    return dates;
+  };
+
+  const isWeekend = (date: string): boolean => {
+    const day = new Date(date).getDay();
+    return day === 0 || day === 6;
+  };
+
   let content;
 
   if (activitiesFetchStatus === "loading") {
@@ -63,35 +92,39 @@ export default function ActivityTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {activities
-              .slice()
-              .sort(
-                (a, b) =>
-                  parseISO(b.date!).getTime() - parseISO(a.date!).getTime()
-              )
-              .map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell>
-                    {format(parseISO(row.date!), DATE_FORMAT_EEEEE_DD_MMM_YYYY)}
-                  </TableCell>
-                  <TableCell>
-                    {getActivityTypeName(row.activityTypeId!)}
-                  </TableCell>
-                  <TableCell align="right">
-                    <Button
-                      onClick={() =>
-                        handleRemove(
-                          parseISO(row.date!).getFullYear(),
-                          parseISO(row.date!).getMonth() + 1,
-                          row.id!
-                        )
-                      }
-                    >
-                      Remove
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+            {getLastDays().map((date) => (
+              <TableRow key={date}>
+                <TableCell
+                  style={{ fontWeight: isWeekend(date) ? "bold" : "normal" }}
+                >
+                  {date}
+                </TableCell>
+                <TableCell>
+                  {groupActivitiesByDate()[date]?.map((activity) => (
+                    <div key={activity.id}>
+                      {getActivityTypeName(activity.activityTypeId!)}
+                    </div>
+                  ))}
+                </TableCell>
+                <TableCell>
+                  {groupActivitiesByDate()[date]?.map((activity) => (
+                    <div key={activity.id}>
+                      <Button
+                        onClick={() =>
+                          handleRemove(
+                            parseISO(activity.date!).getFullYear(),
+                            parseISO(activity.date!).getMonth() + 1,
+                            activity.id!
+                          )
+                        }
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  ))}
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </>
