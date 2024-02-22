@@ -37,10 +37,12 @@ export default function ActivityStatsTable() {
         <Table size="small">
           <TableHead>
             <TableRow>
-              <TableCell>Activity type</TableCell>
-              <TableCell>7 days</TableCell>
-              <TableCell>Avg 14 days</TableCell>
-              <TableCell>Avg 28 days</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>
+                Activity type
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>7 days</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Avg 14 days</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Avg 28 days</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

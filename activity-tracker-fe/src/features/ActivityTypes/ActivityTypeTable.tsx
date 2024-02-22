@@ -38,7 +38,7 @@ export default function ActivityTypeTable() {
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Name</TableCell>
+            <TableCell style={{ fontWeight: "bold" }}>Name</TableCell>
             <TableCell></TableCell>
           </TableRow>
         </TableHead>

@@ -17,6 +17,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import InfoIcon from "@mui/icons-material/Info";
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
+import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -60,7 +61,7 @@ export default function ResponsiveDrawer() {
           onClick={() => handleListItemButtonClick("activities-stats")}
         >
           <ListItemIcon>
-            <ListOutlinedIcon />
+            <QueryStatsIcon />
           </ListItemIcon>
           <ListItemText primary="Activities Stats" />
         </ListItemButton>

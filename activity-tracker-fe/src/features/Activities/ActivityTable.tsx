@@ -55,8 +55,10 @@ export default function ActivityTable() {
         <Table size="small">
           <TableHead>
             <TableRow>
-              <TableCell>Date</TableCell>
-              <TableCell>Activity type</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Date</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>
+                Activity type
+              </TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>

@@ -110,7 +110,7 @@ namespace ActivityTracker.Api.Functions
                     a => a.Id == getActivitiesStatsDto.ActivityTypeId).Name;
             }
 
-            return new OkObjectResult(result);
+            return new OkObjectResult(result.OrderBy( x => x.ActivityTypeName));
         }
 
         [FunctionName(nameof(AddActivity))]
