@@ -52,44 +52,32 @@ export default function ActivityTable() {
     return dates;
   };
 
-  const isWeekend = (date: string): boolean => {
-    const day = new Date(date).getDay();
-    return day === 0 || day === 6;
-  };
-
   let content;
 
   if (activitiesFetchStatus === "loading") {
     content = <CircularProgress />;
   } else if (activitiesFetchStatus === "succeeded") {
     content = (
-      <>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell style={{ fontWeight: "bold" }}>Date</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>
-                Activity type
+      <Table size="small" style={{ maxWidth: "600px" }}>
+        <TableHead>
+          <TableRow>
+            <TableCell style={{ fontWeight: "bold" }}>Date</TableCell>
+            <TableCell style={{ fontWeight: "bold" }}>Activity type</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {getLastDays().map((date) => (
+            <TableRow key={date}>
+              <TableCell>
+                <DayLabel date={date}></DayLabel>
               </TableCell>
-              <TableCell></TableCell>
+              <TableCell>
+                <DayGrid activities={groupActivitiesByDate()[date]}></DayGrid>
+              </TableCell>
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {getLastDays().map((date) => (
-              <TableRow key={date}>
-                <TableCell
-                  style={{ fontWeight: isWeekend(date) ? "bold" : "normal" }}
-                >
-                  <DayLabel date={date}></DayLabel>
-                </TableCell>
-                <TableCell>
-                  <DayGrid activities={groupActivitiesByDate()[date]}></DayGrid>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </>
+          ))}
+        </TableBody>
+      </Table>
     );
   } else if (activitiesFetchStatus === "failed") {
     content = <div>{activitiesError}</div>;

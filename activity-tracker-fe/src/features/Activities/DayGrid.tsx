@@ -1,7 +1,7 @@
 import { Activity } from "src/api/types";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectActivityTypes } from "../ActivityTypes/store/selectors";
-import { Button } from "@mui/material";
+import { Button, Table, TableBody, TableCell, TableRow } from "@mui/material";
 import { deleteActivity } from "./store/actions";
 import { parseISO } from "date-fns";
 
@@ -28,34 +28,30 @@ const DayGrid = (props: DayGridProps) => {
   };
 
   return (
-    <table>
-      {props.activities?.map((activity) => (
-        <>
-          <tr>
-            <td>
-              <div key={activity.id}>
-                {getActivityTypeName(activity.activityTypeId!)}
-              </div>
-            </td>
-            <td>
-              <div key={activity.id}>
-                <Button
-                  onClick={() =>
-                    handleRemove(
-                      parseISO(activity.date!).getFullYear(),
-                      parseISO(activity.date!).getMonth() + 1,
-                      activity.id!
-                    )
-                  }
-                >
-                  Remove
-                </Button>
-              </div>
-            </td>
-          </tr>
-        </>
-      ))}
-    </table>
+    <Table size="small">
+      <TableBody>
+        {props.activities?.map((activity) => (
+          <TableRow key={activity.activityTypeId!} style={{ border: "0" }}>
+            <TableCell style={{ borderBottom: "none" }}>
+              {getActivityTypeName(activity.activityTypeId!)}
+            </TableCell>
+            <TableCell align="right" style={{ borderBottom: "none" }}>
+              <Button
+                onClick={() =>
+                  handleRemove(
+                    parseISO(activity.date!).getFullYear(),
+                    parseISO(activity.date!).getMonth() + 1,
+                    activity.id!
+                  )
+                }
+              >
+                Remove
+              </Button>
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 };
 
