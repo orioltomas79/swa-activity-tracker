@@ -10,40 +10,23 @@ import {
   TableHead,
   TableRow,
   CircularProgress,
-  Button,
 } from "@mui/material";
-import { parseISO } from "date-fns";
-import { selectActivityTypes } from "../ActivityTypes/store/selectors";
 import { Activity } from "src/api/types";
+import DayLabel from "./DayLabel";
+import DayGrid from "./DayGrid";
 
 export default function ActivityTable() {
   const dispatch = useAppDispatch();
 
-  const activityTypes = useAppSelector(selectActivityTypes).activityTypes;
-
   const activities = useAppSelector(selectActivities).activities;
   const activitiesFetchStatus = useAppSelector(selectActivities).fetchStatus;
   const activitiesError = useAppSelector(selectActivities).error;
-
-  const getActivityTypeName = (id: string): string => {
-    return activityTypes.find((a) => a.id === id)?.name!;
-  };
 
   useEffect(() => {
     if (activitiesFetchStatus === "idle") {
       dispatch(fetchActivities());
     }
   }, [activitiesFetchStatus, dispatch]);
-
-  const handleRemove = async (year: number, month: number, id: string) => {
-    try {
-      await dispatch(
-        deleteActivity({ year: year, month: month, id: id })
-      ).unwrap();
-    } catch (error) {
-      console.error("Error removing item:", error);
-    }
-  };
 
   const groupActivitiesByDate = () => {
     const groupedActivities: { [date: string]: Activity[] } = {};
@@ -97,31 +80,10 @@ export default function ActivityTable() {
                 <TableCell
                   style={{ fontWeight: isWeekend(date) ? "bold" : "normal" }}
                 >
-                  {date}
+                  <DayLabel date={date}></DayLabel>
                 </TableCell>
                 <TableCell>
-                  {groupActivitiesByDate()[date]?.map((activity) => (
-                    <div key={activity.id}>
-                      {getActivityTypeName(activity.activityTypeId!)}
-                    </div>
-                  ))}
-                </TableCell>
-                <TableCell>
-                  {groupActivitiesByDate()[date]?.map((activity) => (
-                    <div key={activity.id}>
-                      <Button
-                        onClick={() =>
-                          handleRemove(
-                            parseISO(activity.date!).getFullYear(),
-                            parseISO(activity.date!).getMonth() + 1,
-                            activity.id!
-                          )
-                        }
-                      >
-                        Remove
-                      </Button>
-                    </div>
-                  ))}
+                  <DayGrid activities={groupActivitiesByDate()[date]}></DayGrid>
                 </TableCell>
               </TableRow>
             ))}
