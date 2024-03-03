@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Title from "../../components/Title";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { deleteActivity, fetchActivities } from "./store/actions";
+import { fetchActivities } from "./store/actions";
 import { selectActivities } from "./store/selectors";
 import {
   Table,
