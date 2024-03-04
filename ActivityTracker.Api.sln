@@ -5,6 +5,8 @@ VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityTracker.Api", "activity-tracker-api\ActivityTracker.Api.csproj", "{6E680296-5B17-47E8-84EE-18055BA86B3D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityTracker.FuncApi", "activity-tracker-func-api\ActivityTracker.FuncApi.csproj", "{050B384C-AF3D-4616-9D1F-7F9A0EB26587}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{6E680296-5B17-47E8-84EE-18055BA86B3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E680296-5B17-47E8-84EE-18055BA86B3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E680296-5B17-47E8-84EE-18055BA86B3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{050B384C-AF3D-4616-9D1F-7F9A0EB26587}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{050B384C-AF3D-4616-9D1F-7F9A0EB26587}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{050B384C-AF3D-4616-9D1F-7F9A0EB26587}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{050B384C-AF3D-4616-9D1F-7F9A0EB26587}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
