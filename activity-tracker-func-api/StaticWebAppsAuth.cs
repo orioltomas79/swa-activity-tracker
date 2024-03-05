@@ -48,7 +48,8 @@ public static class StaticWebAppsAuth
             }
             return clientPrincipalHeader;
         }
-
+        else
+        {
 #if DEBUG
         // For local testing only.
         // We can test the backend without the frontend by creating a ClientPrincipal manually
@@ -62,6 +63,10 @@ public static class StaticWebAppsAuth
             UserRoles = ["authenticated"]
         };
 #endif
+            throw new Exception("The request does not have the following header: x-ms-client-principal");
+        }
+
+
     }
 
 
