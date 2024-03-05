@@ -23,16 +23,16 @@ namespace ActivityTracker.FuncApi.Functions
             _activityTypesRepository = activityTypesRepository;
         }
 
-        [Function(nameof(GetActivityTypes))]
-        [OpenApiOperation(tags: new[] { ActivityTypesTag }, operationId: nameof(GetActivityTypes), Summary = "Gets all activity types")]
+        [Function(nameof(GetActivityTypesAsync))]
+        [OpenApiOperation(tags: new[] { ActivityTypesTag }, operationId: nameof(GetActivityTypesAsync), Summary = "Gets all activity types")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<ActivityType>), Description = "Returns all activity types")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.InternalServerError, contentType: "application/json", bodyType: typeof(ProblemDetails), Description = "Internal server error")]
-        public async Task<IActionResult> GetActivityTypes(
+        public async Task<IActionResult> GetActivityTypesAsync(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = ApiEndpoints.ActivityTypes)] HttpRequest req)
         {
             try
             {
-                _logger.LogInformation("{GetActivityTypes} started.", nameof(GetActivityTypes));
+                _logger.LogInformation("{GetActivityTypes} started.", nameof(GetActivityTypesAsync));
 
                 var claimsPrincipal = StaticWebAppsAuth.GetClaimsPrincipal(req);
 

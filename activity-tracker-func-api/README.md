@@ -12,5 +12,11 @@ We can run the ActivityTracker.Api project with Visual Studio or with the comman
 
 # Useful links:
 
+Azure Functions
+https://learn.microsoft.com/en-us/azure/azure-functions/
+
+Isolated worker model
+https://learn.microsoft.com/en-us/azure/azure-functions/dotnet-isolated-process-guide?tabs=windows#aspnet-core-integration
+
 Azure Functions HTTP trigger
 https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-http-webhook-trigger?tabs=python-v2%2Cin-process%2Cfunctionsv2&pivots=programming-language-csharp
