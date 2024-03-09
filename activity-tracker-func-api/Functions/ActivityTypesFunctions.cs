@@ -54,6 +54,23 @@ namespace ActivityTracker.FuncApi.Functions
             }
         }
 
+
+        //[Function(nameof(GetActivityTypes2Async))]
+        //[OpenApiOperation(tags: new[] { ActivityTypesTag }, operationId: nameof(GetActivityTypes2Async), Summary = "Gets all activity types")]
+        //[OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<ActivityType>), Description = "Returns all activity types")]
+        //[OpenApiResponseWithBody(statusCode: HttpStatusCode.InternalServerError, contentType: "application/json", bodyType: typeof(ProblemDetails), Description = "Internal server error")]
+        //public async Task<IEnumerable<ActivityType>> GetActivityTypes2Async(
+        //    [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = ApiEndpoints.ActivityTypes)] HttpRequest req)
+        //{
+        //    _logger.LogInformation("{GetActivityTypes} started.", nameof(GetActivityTypes2Async));
+
+        //    var claimsPrincipal = StaticWebAppsAuth.GetClaimsPrincipal(req);
+
+        //    var list = await _activityTypesRepository.GetAllActivityTypesAsync(claimsPrincipal.GetUserId());
+
+        //    return list;
+        //}
+
         [Function(nameof(AddActivityType))]
         [OpenApiOperation(tags: new[] { ActivityTypesTag }, operationId: nameof(AddActivityType), Summary = "Adds a new activity type")]
         [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(CreateNewActivityTypeRequest), Description = "The activity type")]
@@ -89,7 +106,7 @@ namespace ActivityTracker.FuncApi.Functions
 
                 await _activityTypesRepository.AddActivityTypeAsync(claimsPrincipal.GetUserId(), activityType);
 
-                return new CreatedAtActionResult("NA", "NA", null, activityType);
+                return new CreatedAtActionResult("ActivityTypes", "ActivityTypesFunctions", "", activityType);
             }
             catch (Exception e)
             {
