@@ -8,6 +8,12 @@ public class GetActivitiesStatsDto
 
     public decimal CountLast7Days { get; set; }
 
+    public decimal Count8to14DaysAgo { get; set; }
+
+    public decimal Count15to21DaysAgo { get; set; }
+
+    public decimal Count22to28DaysAgo { get; set; }
+
     public decimal AvgLast14Days { get; set; }
 
     public decimal AvgLast28Days { get; set; }

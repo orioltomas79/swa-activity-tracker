@@ -56,6 +56,31 @@ export default function ActivityStatsTable() {
             ))}
           </TableBody>
         </Table>
+        <br />
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell style={{ fontWeight: "bold" }}>
+                Activity type
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>7 days</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>8-14 days</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>15-21 days</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>22-28 days</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {activitiesStats.map((row) => (
+              <TableRow key={row.activityTypeId}>
+                <TableCell>{row.activityTypeName}</TableCell>
+                <TableCell>{row.countLast7Days}</TableCell>
+                <TableCell>{row.count8to14DaysAgo}</TableCell>
+                <TableCell>{row.count15to21DaysAgo}</TableCell>
+                <TableCell>{row.count22to28DaysAgo}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </>
     );
   } else if (activitiesStatsFetchStatus === "failed") {

@@ -66,6 +66,27 @@ namespace ActivityTracker.Api.Functions
                 .Select(g => new { ActivityTypeId = g.Key, Count = (decimal)g.Count() })
                 .ToList();
 
+            // Count activities in the last 8 to 14 days
+            var statsLast8to14Days = activities
+                .Where(a => a.Date >= DateTime.Now.AddDays(-8) && a.Date <= DateTime.Now.AddDays(-14))
+                .GroupBy(a => a.ActivityTypeId)
+                .Select(g => new { ActivityTypeId = g.Key, Count = (decimal)g.Count() })
+                .ToList();
+
+            // Count activities in the last 15 to 21 days
+            var statsLast15to21Days = activities
+                .Where(a => a.Date >= DateTime.Now.AddDays(-15) && a.Date <= DateTime.Now.AddDays(-21))
+                .GroupBy(a => a.ActivityTypeId)
+                .Select(g => new { ActivityTypeId = g.Key, Count = (decimal)g.Count() })
+                .ToList();
+
+            // Count activities in the last 8 to 14 days
+            var statsLast22to28Days = activities
+                .Where(a => a.Date >= DateTime.Now.AddDays(-22) && a.Date <= DateTime.Now.AddDays(-28))
+                .GroupBy(a => a.ActivityTypeId)
+                .Select(g => new { ActivityTypeId = g.Key, Count = (decimal)g.Count() })
+                .ToList();
+
             // Count activities in the last 14 days
             var statsLast14Days = activities
                 .Where(a => a.Date >= DateTime.Now.AddDays(-14))
@@ -80,37 +101,78 @@ namespace ActivityTracker.Api.Functions
                 .Select(g => new { ActivityTypeId = g.Key, Count = (decimal)g.Count() / 4 })
                 .ToList();
 
-            // Generate the final list with the counts of the last 7, 14 and 28 days.
+            // Get all activity types
+            var listActivityTypes = await _activityTypesRepository.GetAllActivityTypesAsync(claimsPrincipal.GetUserId());
+
+            // Generate the final list 
             var result = new List<GetActivitiesStatsDto>();
-            foreach (var stat in statsLast28Days){
-                result.Add(new GetActivitiesStatsDto(){
-                    ActivityTypeId = stat.ActivityTypeId,
-                    AvgLast28Days = Math.Round(stat.Count, 1)
+            foreach (var activityType in listActivityTypes)
+            {
+                result.Add(new GetActivitiesStatsDto()
+                {
+                    ActivityTypeId = activityType.Id,
+                    ActivityTypeName = activityType.Name
                 });
+            }
+
+            // Add statsLast7Days, statsLast14Days, statsLast28Days
+            foreach (var stat in statsLast7Days)
+            {
+                var activityStat = result.FirstOrDefault(x => x.ActivityTypeId == stat.ActivityTypeId);
+                if (activityStat != null)
+                {
+                    activityStat.CountLast7Days = stat.Count;
+                }
+            }
+
+            foreach (var stat in statsLast8to14Days)
+            {
+                var activityStat = result.FirstOrDefault(x => x.ActivityTypeId == stat.ActivityTypeId);
+                if (activityStat != null)
+                {
+                    activityStat.Count8to14DaysAgo = stat.Count;
+                }
+            }
+
+            foreach (var stat in statsLast15to21Days)
+            {
+                var activityStat = result.FirstOrDefault(x => x.ActivityTypeId == stat.ActivityTypeId);
+                if (activityStat != null)
+                {
+                    activityStat.Count15to21DaysAgo = stat.Count;
+                }
+            }
+
+            foreach (var stat in statsLast22to28Days)
+            {
+                var activityStat = result.FirstOrDefault(x => x.ActivityTypeId == stat.ActivityTypeId);
+                if (activityStat != null)
+                {
+                    activityStat.Count22to28DaysAgo = stat.Count;
+                }
             }
 
             foreach (var stat in statsLast14Days)
             {
                 var activityStat = result.FirstOrDefault(x => x.ActivityTypeId == stat.ActivityTypeId);
-                activityStat.AvgLast14Days = Math.Round(stat.Count, 1);
+                if (activityStat != null)
+                {
+                    activityStat.AvgLast14Days = Math.Round(stat.Count, 1);
+                }
             }
 
-            foreach (var stat in statsLast7Days)
+            foreach (var stat in statsLast28Days)
             {
                 var activityStat = result.FirstOrDefault(x => x.ActivityTypeId == stat.ActivityTypeId);
-                activityStat.CountLast7Days = stat.Count;
+                if (activityStat != null)
+                {
+                    activityStat.AvgLast28Days = Math.Round(stat.Count, 1);
+                }
             }
 
-            // Add the activity Name
-            var activityTypes = await _activityTypesRepository.GetAllActivityTypesAsync(claimsPrincipal.GetUserId());
 
-            foreach (var getActivitiesStatsDto in result)
-            {
-                getActivitiesStatsDto.ActivityTypeName = activityTypes.First(
-                    a => a.Id == getActivitiesStatsDto.ActivityTypeId).Name;
-            }
 
-            return new OkObjectResult(result.OrderBy( x => x.ActivityTypeName));
+            return new OkObjectResult(result.OrderBy(x => x.ActivityTypeName));
         }
 
         [FunctionName(nameof(AddActivity))]
