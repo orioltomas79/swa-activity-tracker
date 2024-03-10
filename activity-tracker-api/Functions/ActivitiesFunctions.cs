@@ -73,21 +73,21 @@ namespace ActivityTracker.Api.Functions
 
             // Count activities in the last 8 to 14 days
             var statsLast8to14Days = activities
-                .Where(a => a.Date >= DaysAgo14 && a.Date <= DaysAgo7)
+                .Where(a => a.Date >= DaysAgo14 && a.Date < DaysAgo7)
                 .GroupBy(a => a.ActivityTypeId)
                 .Select(g => new { ActivityTypeId = g.Key, Count = (decimal)g.Count() })
                 .ToList();
 
             // Count activities in the last 15 to 21 days
             var statsLast15to21Days = activities
-                .Where(a => a.Date >= DaysAgo21 && a.Date <= DaysAgo14)
+                .Where(a => a.Date >= DaysAgo21 && a.Date < DaysAgo14)
                 .GroupBy(a => a.ActivityTypeId)
                 .Select(g => new { ActivityTypeId = g.Key, Count = (decimal)g.Count() })
                 .ToList();
 
             // Count activities in the last 22 to 28 days
             var statsLast22to28Days = activities
-                .Where(a => a.Date >= DaysAgo28 && a.Date <= DaysAgo21)
+                .Where(a => a.Date >= DaysAgo28 && a.Date < DaysAgo21)
                 .GroupBy(a => a.ActivityTypeId)
                 .Select(g => new { ActivityTypeId = g.Key, Count = (decimal)g.Count() })
                 .ToList();
