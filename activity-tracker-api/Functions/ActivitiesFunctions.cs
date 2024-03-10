@@ -59,44 +59,49 @@ namespace ActivityTracker.Api.Functions
 
             var activities = await _activitiesRepository.GetLastActivitiesAsync(claimsPrincipal.GetUserId());
 
+            var DaysAgo7 = DateTime.Now.AddDays(-7).Date;
+            var DaysAgo14 = DateTime.Now.AddDays(-14).Date;
+            var DaysAgo21 = DateTime.Now.AddDays(-21).Date;
+            var DaysAgo28 = DateTime.Now.AddDays(-28).Date;
+
             // Count activities in the last 7 days
             var statsLast7Days = activities
-                .Where(a => a.Date >= DateTime.Now.AddDays(-7))
+                .Where(a => a.Date >= DaysAgo7)
                 .GroupBy(a => a.ActivityTypeId)
                 .Select(g => new { ActivityTypeId = g.Key, Count = (decimal)g.Count() })
                 .ToList();
 
             // Count activities in the last 8 to 14 days
             var statsLast8to14Days = activities
-                .Where(a => a.Date >= DateTime.Now.AddDays(-14) && a.Date <= DateTime.Now.AddDays(-8))
+                .Where(a => a.Date >= DaysAgo14 && a.Date <= DaysAgo7)
                 .GroupBy(a => a.ActivityTypeId)
                 .Select(g => new { ActivityTypeId = g.Key, Count = (decimal)g.Count() })
                 .ToList();
 
             // Count activities in the last 15 to 21 days
             var statsLast15to21Days = activities
-                .Where(a => a.Date >= DateTime.Now.AddDays(-21) && a.Date <= DateTime.Now.AddDays(-15))
+                .Where(a => a.Date >= DaysAgo21 && a.Date <= DaysAgo14)
                 .GroupBy(a => a.ActivityTypeId)
                 .Select(g => new { ActivityTypeId = g.Key, Count = (decimal)g.Count() })
                 .ToList();
 
-            // Count activities in the last 8 to 14 days
+            // Count activities in the last 22 to 28 days
             var statsLast22to28Days = activities
-                .Where(a => a.Date >= DateTime.Now.AddDays(-28) && a.Date <= DateTime.Now.AddDays(-22))
+                .Where(a => a.Date >= DaysAgo28 && a.Date <= DaysAgo21)
                 .GroupBy(a => a.ActivityTypeId)
                 .Select(g => new { ActivityTypeId = g.Key, Count = (decimal)g.Count() })
                 .ToList();
 
             // Count activities in the last 14 days
             var statsLast14Days = activities
-                .Where(a => a.Date >= DateTime.Now.AddDays(-14))
+                .Where(a => a.Date >= DaysAgo14)
                 .GroupBy(a => a.ActivityTypeId)
                 .Select(g => new { ActivityTypeId = g.Key, Count = (decimal)g.Count() / 2 })
                 .ToList();
 
             // Count activities in the last 28 days
             var statsLast28Days = activities
-                .Where(a => a.Date >= DateTime.Now.AddDays(-28))
+                .Where(a => a.Date >= DaysAgo28)
                 .GroupBy(a => a.ActivityTypeId)
                 .Select(g => new { ActivityTypeId = g.Key, Count = (decimal)g.Count() / 4 })
                 .ToList();
