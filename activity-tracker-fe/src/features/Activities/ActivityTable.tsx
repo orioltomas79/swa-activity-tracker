@@ -44,7 +44,7 @@ export default function ActivityTable() {
 
   const getLastDays = () => {
     const dates: string[] = [];
-    for (let i = 0; i < 14; i++) {
+    for (let i = 0; i < 28; i++) {
       const date = new Date();
       date.setDate(date.getDate() - i);
       dates.push(date.toDateString());
