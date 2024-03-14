@@ -29,7 +29,15 @@ namespace ActivityTracker.Api.Infrastructure
 
             activities.AddRange(previousMonthActivities);
 
-            return activities.Where(x => x.Date > DateTime.Now.AddDays(-7 * 4));
+            var twoMonthsAgoDate = GetTwoMonthsAgoDate();
+            var blobClient3 = await GetBlobClientAsync(
+                ContainerName,
+                GetBlobName(userId, twoMonthsAgoDate.Year, twoMonthsAgoDate.Month));
+            var twoMonthsAgoActivities = await ReadListAsync<Activity>(blobClient3);
+
+            activities.AddRange(twoMonthsAgoActivities);
+
+            return activities.Where(x => x.Date > DateTime.Now.AddDays(-7 * 8));
         }
 
         public async Task AddActivityAsync(string userId, Activity activity)
@@ -60,6 +68,14 @@ namespace ActivityTracker.Api.Infrastructure
             DateTime firstDayOfCurrentMonth = new DateTime(currentDate.Year, currentDate.Month, 1);
             DateTime lastDayOfPreviousMonth = firstDayOfCurrentMonth.AddDays(-1);
             return lastDayOfPreviousMonth;
+        }
+
+        private static DateTime GetTwoMonthsAgoDate()
+        {
+            DateTime previousMonthDate = GetPreviousMonthDate();
+            DateTime firstDayOfPreviousMonth = new DateTime(previousMonthDate.Year, previousMonthDate.Month, 1);
+            DateTime lastDayOfTwoMonthsAgo = firstDayOfPreviousMonth.AddDays(-1);
+            return lastDayOfTwoMonthsAgo;
         }
     }
 }

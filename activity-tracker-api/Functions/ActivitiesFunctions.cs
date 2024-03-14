@@ -60,9 +60,10 @@ namespace ActivityTracker.Api.Functions
             var activities = await _activitiesRepository.GetLastActivitiesAsync(claimsPrincipal.GetUserId());
 
             var DaysAgo7 = DateTime.Now.AddDays(-7).Date;
-            var DaysAgo14 = DateTime.Now.AddDays(-14).Date;
-            var DaysAgo21 = DateTime.Now.AddDays(-21).Date;
-            var DaysAgo28 = DateTime.Now.AddDays(-28).Date;
+            var DaysAgo14 = DateTime.Now.AddDays(-7*2).Date;
+            var DaysAgo21 = DateTime.Now.AddDays(-7*3).Date;
+            var DaysAgo28 = DateTime.Now.AddDays(-7*4).Date;
+            var WeeksAgo8 = DateTime.Now.AddDays(-7*8).Date;
 
             // Count activities in the last 7 days
             var statsLast7Days = activities
@@ -92,18 +93,18 @@ namespace ActivityTracker.Api.Functions
                 .Select(g => new { ActivityTypeId = g.Key, Count = (decimal)g.Count() })
                 .ToList();
 
-            // Count activities in the last 14 days
-            var statsLast14Days = activities
-                .Where(a => a.Date >= DaysAgo14)
+            // Count activities in the last 28 days
+            var statsLast4Weeks = activities
+                .Where(a => a.Date >= DaysAgo28)
                 .GroupBy(a => a.ActivityTypeId)
-                .Select(g => new { ActivityTypeId = g.Key, Count = (decimal)g.Count() / 2 })
+                .Select(g => new { ActivityTypeId = g.Key, Count = (decimal)g.Count() })
                 .ToList();
 
             // Count activities in the last 28 days
-            var statsLast28Days = activities
-                .Where(a => a.Date >= DaysAgo28)
+            var statsLast5to8Weeks = activities
+                .Where(a => a.Date >= WeeksAgo8 && a.Date < DaysAgo28)
                 .GroupBy(a => a.ActivityTypeId)
-                .Select(g => new { ActivityTypeId = g.Key, Count = (decimal)g.Count() / 4 })
+                .Select(g => new { ActivityTypeId = g.Key, Count = (decimal)g.Count() })
                 .ToList();
 
             // Get all activity types
@@ -157,25 +158,23 @@ namespace ActivityTracker.Api.Functions
                 }
             }
 
-            foreach (var stat in statsLast14Days)
+            foreach (var stat in statsLast4Weeks)
             {
                 var activityStat = result.FirstOrDefault(x => x.ActivityTypeId == stat.ActivityTypeId);
                 if (activityStat != null)
                 {
-                    activityStat.AvgLast14Days = Math.Round(stat.Count, 1);
+                    activityStat.CountLast4Weeks = stat.Count;
                 }
             }
 
-            foreach (var stat in statsLast28Days)
+            foreach (var stat in statsLast5to8Weeks)
             {
                 var activityStat = result.FirstOrDefault(x => x.ActivityTypeId == stat.ActivityTypeId);
                 if (activityStat != null)
                 {
-                    activityStat.AvgLast28Days = Math.Round(stat.Count, 1);
+                    activityStat.Count5to8Weeks = stat.Count;
                 }
             }
-
-
 
             return new OkObjectResult(result.OrderBy(x => x.ActivityTypeName));
         }
