@@ -17,4 +17,8 @@ public class GetActivitiesStatsDto
     public decimal CountLast4Weeks { get; set; }
 
     public decimal Count5to8Weeks { get; set; }
+
+    public decimal Count9to12Weeks { get; set; }
+
+    public decimal Count13to16Weeks { get; set; }
 }

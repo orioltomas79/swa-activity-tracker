@@ -7,9 +7,9 @@ namespace ActivityTracker.Api.Infrastructure;
 
 public interface IActivitiesRepository
 {
-    Task<IEnumerable<Activity>> GetActivitiesAsync(string userId);
+    Task<IEnumerable<Activity>> GetActivitiesAsync(string userId, int year, int month);
 
-    Task<IEnumerable<Activity>> GetLastActivitiesAsync(string userId);
+    Task<IEnumerable<Activity>> GetLastActivitiesAsync(string userId, int numWeeks);
 
     Task AddActivityAsync(string userId, Activity activity);
 

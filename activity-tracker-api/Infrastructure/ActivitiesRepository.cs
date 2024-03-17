@@ -8,36 +8,28 @@ namespace ActivityTracker.Api.Infrastructure
 {
     internal class ActivitiesRepository : BlobRepository, IActivitiesRepository
     {
-        public async Task<IEnumerable<Activity>> GetActivitiesAsync(string userId)
+        public async Task<IEnumerable<Activity>> GetActivitiesAsync(string userId, int year, int month)
         {
-            var blobClient = await GetBlobClientAsync(ContainerName, GetBlobName(userId, DateTime.UtcNow.Year, DateTime.UtcNow.Month));
+            var blobClient = await GetBlobClientAsync(ContainerName, GetBlobName(userId, year, month));
             return await ReadListAsync<Activity>(blobClient);
         }
 
-        public async Task<IEnumerable<Activity>> GetLastActivitiesAsync(string userId)
+        public async Task<IEnumerable<Activity>> GetLastActivitiesAsync(string userId, int numWeeks)
         {
-            var blobClient1 = await GetBlobClientAsync(
-                ContainerName,
-                GetBlobName(userId, DateTime.UtcNow.Year, DateTime.UtcNow.Month));
-            var activities = await ReadListAsync<Activity>(blobClient1);
+            var result = new List<Activity>();
+            var date = DateTime.Now;
 
-            var previousMonthDate = GetPreviousMonthDate();
-            var blobClient2 = await GetBlobClientAsync(
-                ContainerName,
-                GetBlobName(userId, previousMonthDate.Year, previousMonthDate.Month));
-            var previousMonthActivities = await ReadListAsync<Activity>(blobClient2);
+            int numMonths = (numWeeks / 4) + 1; 
+            for (int i = 0; i < numMonths; i++)
+            {
+                var blobClient = await GetBlobClientAsync(ContainerName,  GetBlobName(userId, date.Year, date.Month));
+                var activities = await ReadListAsync<Activity>(blobClient);
 
-            activities.AddRange(previousMonthActivities);
-
-            var twoMonthsAgoDate = GetTwoMonthsAgoDate();
-            var blobClient3 = await GetBlobClientAsync(
-                ContainerName,
-                GetBlobName(userId, twoMonthsAgoDate.Year, twoMonthsAgoDate.Month));
-            var twoMonthsAgoActivities = await ReadListAsync<Activity>(blobClient3);
-
-            activities.AddRange(twoMonthsAgoActivities);
-
-            return activities.Where(x => x.Date > DateTime.Now.AddDays(-7 * 8));
+                result.AddRange(activities);
+                date = GetPreviousMonthDate(date.Year, date.Month);
+            }
+            
+            return result.Where(x => x.Date > DateTime.Now.AddDays(-7 * numWeeks));
         }
 
         public async Task AddActivityAsync(string userId, Activity activity)
@@ -62,20 +54,11 @@ namespace ActivityTracker.Api.Infrastructure
             return $"{userId}/{year}/{month}.json";
         }
 
-        private static DateTime GetPreviousMonthDate()
+        private static DateTime GetPreviousMonthDate(int year, int month)
         {
-            DateTime currentDate = DateTime.Now;
-            DateTime firstDayOfCurrentMonth = new DateTime(currentDate.Year, currentDate.Month, 1);
-            DateTime lastDayOfPreviousMonth = firstDayOfCurrentMonth.AddDays(-1);
+            var firstDayOfMonth = new DateTime(year, month, 1);
+            var lastDayOfPreviousMonth = firstDayOfMonth.AddDays(-1);
             return lastDayOfPreviousMonth;
-        }
-
-        private static DateTime GetTwoMonthsAgoDate()
-        {
-            DateTime previousMonthDate = GetPreviousMonthDate();
-            DateTime firstDayOfPreviousMonth = new DateTime(previousMonthDate.Year, previousMonthDate.Month, 1);
-            DateTime lastDayOfTwoMonthsAgo = firstDayOfPreviousMonth.AddDays(-1);
-            return lastDayOfTwoMonthsAgo;
         }
     }
 }

@@ -615,6 +615,8 @@ export interface GetActivitiesStatsDto {
   count22to28DaysAgo?: number;
   countLast4Weeks?: number;
   count5to8Weeks?: number;
+  count9to12Weeks?: number;
+  count13to16Weeks?: number;
 
   [key: string]: any;
 }

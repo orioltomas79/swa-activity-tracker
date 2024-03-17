@@ -67,6 +67,8 @@ export default function ActivityStatsTable() {
               </TableCell>
               <TableCell style={{ fontWeight: "bold" }}>4 weeks</TableCell>
               <TableCell style={{ fontWeight: "bold" }}>5-8 weeks</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>9-12 weeks</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>13-16 weeks</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -75,6 +77,8 @@ export default function ActivityStatsTable() {
                 <TableCell>{row.activityTypeName}</TableCell>
                 <TableCell>{row.countLast4Weeks}</TableCell>
                 <TableCell>{row.count5to8Weeks}</TableCell>
+                <TableCell>{row.count9to12Weeks}</TableCell>
+                <TableCell>{row.count13to16Weeks}</TableCell>
               </TableRow>
             ))}
           </TableBody>
